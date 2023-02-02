@@ -1,0 +1,44 @@
+package io.github.tibetteixeira.api.v1.domain.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "cartao")
+public class Cartao {
+
+    @Id
+    @GeneratedValue(generator = "cartao_id_seq", strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "cartao_id_seq", sequenceName = "cartao_id_seq", allocationSize = 1)
+    @Column
+    private Integer id;
+
+    @Column
+    @NonNull
+    private String nome;
+
+    @Column(name = "num_final_cartao")
+    @NonNull
+    private String ultimosQuatroDigitosCartao;
+
+    @Column(name = "dia_vencimento")
+    @NonNull
+    private Integer diaVencimento;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    @NonNull
+    private Usuario usuario;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cartao")
+    private List<Fatura> faturas = new ArrayList<>();
+}
