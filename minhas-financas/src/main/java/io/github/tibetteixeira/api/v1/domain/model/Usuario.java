@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.tibetteixeira.api.v1.domain.model.dto.UsuarioDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class Usuario {
     @NonNull
     private String sobrenome;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     @NonNull
     private String email;
 
@@ -56,4 +57,17 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     List<CaixaEconomia> caixas = new ArrayList<>();
 
+
+    public UsuarioDTO toDTO() {
+
+        UsuarioDTO usuario = new UsuarioDTO();
+
+        usuario.setId(this.id);
+        usuario.setNome(this.nome);
+        usuario.setSobrenome(this.sobrenome);
+        usuario.setEmail(this.email);
+        usuario.setSenha(this.senha);
+
+        return usuario;
+    }
 }
