@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.tibetteixeira.api.v1.domain.model.dto.CartaoDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,4 +42,20 @@ public class Cartao {
     @JsonIgnore
     @OneToMany(mappedBy = "cartao")
     private List<Fatura> faturas = new ArrayList<>();
+
+    public Cartao(Integer id) {
+        this.id = id;
+    }
+
+    public CartaoDTO toDTO() {
+        CartaoDTO cartao = new CartaoDTO();
+
+        cartao.setId(id);
+        cartao.setNome(nome);
+        cartao.setUltimosQuatroDigitosCartao(ultimosQuatroDigitosCartao);
+        cartao.setDiaVencimento(diaVencimento);
+        cartao.setUsuarioId(usuario.getId());
+
+        return cartao;
+    }
 }

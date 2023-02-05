@@ -57,6 +57,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     List<CaixaEconomia> caixas = new ArrayList<>();
 
+    public Usuario(Integer id) {
+        this.id = id;
+    }
 
     public UsuarioDTO toDTO() {
 
