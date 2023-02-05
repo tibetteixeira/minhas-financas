@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
+import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.*;
 
@@ -35,4 +36,16 @@ public class Fatura {
     @JoinColumn(name = "id_cartao")
     @NonNull
     private Cartao cartao;
+
+    public FaturaDTO toDTO() {
+        FaturaDTO fatura = new FaturaDTO();
+
+        fatura.setId(id);
+        fatura.setDataVencimento(dataVencimento);
+        fatura.setStatus(status);
+        fatura.setValorPago(valorPago);
+        fatura.setCartao(cartao.toDTO());
+
+        return fatura;
+    }
 }
