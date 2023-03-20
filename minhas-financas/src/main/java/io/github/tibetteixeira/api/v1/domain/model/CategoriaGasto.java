@@ -1,6 +1,8 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
+import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,4 +30,13 @@ public class CategoriaGasto {
     @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private List<Gasto> gastos = new ArrayList<>();
+
+    public CategoriaGastoDTO toDTO() {
+        CategoriaGastoDTO categoriaGastoDTO = new CategoriaGastoDTO();
+
+        categoriaGastoDTO.setId(id);
+        categoriaGastoDTO.setDescricao(descricao);
+
+        return categoriaGastoDTO;
+    }
 }

@@ -6,6 +6,7 @@ public class Rotas {
     public static final String ID = "/{id}";
 
     public static final String NOME = "nome/{nome}";
+    public static final String DESCRICAO = "descricao/{descricao}";
     public static final String USUARIO_ID = "usuario/{usuario}";
     public static final String CARTAO_ID = "cartao/{cartao}";
 

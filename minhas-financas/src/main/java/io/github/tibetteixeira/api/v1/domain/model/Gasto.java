@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
+import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,4 +38,17 @@ public class Gasto {
     @JoinColumn(name = "id_fatura")
     @ManyToOne
     private Fatura fatura;
+
+    public GastoDTO toDTO() {
+        GastoDTO gastoDTO = new GastoDTO();
+
+        gastoDTO.setId(id);
+        gastoDTO.setDataGasto(dataGasto);
+        gastoDTO.setValor(valor);
+        gastoDTO.setDescricao(descricao);
+        gastoDTO.setCategoria(categoria.toDTO());
+        gastoDTO.setFatura(fatura.toDTO());
+
+        return gastoDTO;
+    }
 }

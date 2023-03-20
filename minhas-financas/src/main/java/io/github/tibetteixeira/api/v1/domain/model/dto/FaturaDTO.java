@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
+import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,16 @@ public class FaturaDTO {
     private StatusPagamentoFatura status;
     private BigDecimal valorPago;
     private CartaoDTO cartao;
+
+    public Fatura toModel() {
+        Fatura fatura = new Fatura();
+
+        fatura.setId(id);
+        fatura.setDataVencimento(dataVencimento);
+        fatura.setStatus(status);
+        fatura.setValorPago(valorPago);
+        fatura.setCartao(cartao.toModel());
+
+        return fatura;
+    }
 }
