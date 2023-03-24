@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
+import io.github.tibetteixeira.api.v1.domain.model.dto.PagamentoDTO;
 import io.github.tibetteixeira.api.v1.domain.model.enums.TipoPagamento;
 import lombok.*;
 
@@ -48,5 +49,19 @@ public class Pagamento {
     @ManyToOne
     @JoinColumn(name = "id_fatura")
     private Fatura fatura;
+
+    public PagamentoDTO toDTO() {
+        PagamentoDTO pagamento = new PagamentoDTO();
+
+        pagamento.setId(id);
+        pagamento.setValor(valor);
+        pagamento.setDescricao(descricao);
+        pagamento.setDataPagamento(dataPagamento);
+        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setGasto(gasto.toDTO());
+        pagamento.setFatura(fatura.toDTO());
+
+        return pagamento;
+    }
 
 }
