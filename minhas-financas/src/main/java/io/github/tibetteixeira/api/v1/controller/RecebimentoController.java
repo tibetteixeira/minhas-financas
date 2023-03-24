@@ -1,9 +1,11 @@
 package io.github.tibetteixeira.api.v1.controller;
 
+import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.model.dto.RecebimentoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,9 @@ public class RecebimentoController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody RecebimentoDTO recebimento) {
+        if (BooleanUtils.isFalse(id.equals(recebimento.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
         service.atualizar(id, recebimento.toModel());
     }
 

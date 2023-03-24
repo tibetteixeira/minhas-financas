@@ -1,9 +1,11 @@
 package io.github.tibetteixeira.api.v1.controller;
 
+import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
 import io.github.tibetteixeira.api.v1.domain.model.dto.PagamentoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.PagamentoService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +19,16 @@ public class PagamentoController {
     private PagamentoService service;
 
     @PostMapping(path = Rotas.EMPTY)
-    public void salvar(@RequestBody PagamentoDTO gasto) {
-        service.salvar(gasto.toModel());
+    public void salvar(@RequestBody PagamentoDTO pagamento) {
+        service.salvar(pagamento.toModel());
     }
 
     @PutMapping(path = Rotas.ID)
-    public void atualizar(@PathVariable Integer id, @RequestBody PagamentoDTO gasto) {
-        service.atualizar(id, gasto.toModel());
+    public void atualizar(@PathVariable Integer id, @RequestBody PagamentoDTO pagamento) {
+        if (BooleanUtils.isFalse(id.equals(pagamento.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
+        service.atualizar(id, pagamento.toModel());
     }
 
     @DeleteMapping(path = Rotas.ID)

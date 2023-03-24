@@ -1,10 +1,12 @@
 package io.github.tibetteixeira.api.v1.controller;
 
 
+import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CartaoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,9 @@ public class CartaoController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CartaoDTO cartao) {
+        if (BooleanUtils.isFalse(id.equals(cartao.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
         service.atualizar(id, cartao.toModel());
     }
 

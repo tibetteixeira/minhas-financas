@@ -1,9 +1,11 @@
 package io.github.tibetteixeira.api.v1.controller;
 
+import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,9 @@ public class CategoriaGastoController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CategoriaGastoDTO categoria) {
+        if (BooleanUtils.isFalse(id.equals(categoria.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
         service.atualizar(id, categoria.toModel());
     }
 

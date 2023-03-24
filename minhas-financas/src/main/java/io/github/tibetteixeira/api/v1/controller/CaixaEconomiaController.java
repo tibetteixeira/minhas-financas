@@ -1,10 +1,12 @@
 package io.github.tibetteixeira.api.v1.controller;
 
+import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,9 @@ public class CaixaEconomiaController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CaixaEconomiaDTO caixaEconomia) {
+        if (BooleanUtils.isFalse(id.equals(caixaEconomia.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
         service.atualizar(id, caixaEconomia.toModel());
     }
 
@@ -58,6 +63,9 @@ public class CaixaEconomiaController {
 
     @PutMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
     public void atualizarItem(@PathVariable Integer id, @RequestBody ItemCaixaEconomiaDTO item) {
+        if (BooleanUtils.isFalse(id.equals(item.getId())))
+            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+
         service.atualizar(id, item.toModel());
     }
 
