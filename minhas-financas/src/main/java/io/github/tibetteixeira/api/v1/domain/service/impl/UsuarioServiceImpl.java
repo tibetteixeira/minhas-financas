@@ -4,6 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.UsuarioException;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,11 @@ import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
+@AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
     private UsuarioRepository repository;
     private PasswordEncoder encoder;
-
-    public UsuarioServiceImpl(UsuarioRepository repository, PasswordEncoder encoder) {
-        this.repository = repository;
-        this.encoder = encoder;
-    }
 
     @Override
     public void salvar(Usuario usuario) {

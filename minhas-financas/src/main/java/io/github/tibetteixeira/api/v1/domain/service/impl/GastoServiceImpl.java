@@ -4,7 +4,6 @@ import io.github.tibetteixeira.api.v1.domain.exception.GastoException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
-import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.repository.GastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;

@@ -6,6 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.CartaoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +15,12 @@ import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
+@AllArgsConstructor
 public class CartaoServiceImpl implements CartaoService {
 
     private CartaoRepository repository;
 
     private UsuarioService usuarioService;
-
-    public CartaoServiceImpl(CartaoRepository repository, UsuarioService usuarioService) {
-        this.repository = repository;
-        this.usuarioService = usuarioService;
-    }
 
     @Override
     public void salvar(Cartao cartao) {

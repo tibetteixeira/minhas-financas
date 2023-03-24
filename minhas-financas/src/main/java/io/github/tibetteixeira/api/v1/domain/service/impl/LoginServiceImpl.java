@@ -5,16 +5,14 @@ import io.github.tibetteixeira.api.v1.domain.exception.UsuarioException;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.service.LoginService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class LoginServiceImpl implements LoginService {
 
     private UsuarioService service;
-
-    public LoginServiceImpl(UsuarioService service) {
-        this.service = service;
-    }
 
     @Override
     public Usuario login(String email, String senha) {

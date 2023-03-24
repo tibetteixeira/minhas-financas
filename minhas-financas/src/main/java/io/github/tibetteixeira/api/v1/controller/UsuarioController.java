@@ -2,17 +2,15 @@ package io.github.tibetteixeira.api.v1.controller;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.UsuarioDTO;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = Rotas.USUARIO)
+@AllArgsConstructor
 public class UsuarioController {
 
     private UsuarioService service;
-
-    public UsuarioController(UsuarioService service) {
-        this.service = service;
-    }
 
     @PostMapping(path = Rotas.EMPTY)
     public void salvar(@RequestBody UsuarioDTO usuario) {

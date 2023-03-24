@@ -4,6 +4,7 @@ package io.github.tibetteixeira.api.v1.controller;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CartaoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,13 +12,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = Rotas.CARTAO)
+@AllArgsConstructor
 public class CartaoController {
 
     private CartaoService service;
-
-    public CartaoController(CartaoService service) {
-        this.service = service;
-    }
 
     @PostMapping(path = Rotas.EMPTY)
     public void salvar(@RequestBody CartaoDTO cartao) {
