@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 
+import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,14 +25,23 @@ public class ItemCaixaEconomia {
     @Column
     private BigDecimal valor;
 
-    @Column
-    private Integer prazo;
-
-    @Column(name = "data_caixa_economia")
-    private Date dataCriacao;
+    @Column(name = "data_economia")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataEconomia;
 
     @ManyToOne
     @JoinColumn(name = "id_caixa_economia")
     @NonNull
     private CaixaEconomia caixa;
+
+    public ItemCaixaEconomiaDTO toDTO() {
+        ItemCaixaEconomiaDTO item = new ItemCaixaEconomiaDTO();
+
+        item.setId(id);
+        item.setValor(valor);
+        item.setDataEconomia(dataEconomia);
+        item.setCaixa(caixa.toDTO());
+
+        return item;
+    }
 }

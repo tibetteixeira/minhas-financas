@@ -2,6 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -41,6 +43,7 @@ public class CaixaEconomia {
     private Integer prazo;
 
     @Column(name = "data_criacao")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
     @ManyToOne
@@ -51,4 +54,19 @@ public class CaixaEconomia {
     @JsonIgnore
     @OneToMany(mappedBy = "caixa")
     private List<ItemCaixaEconomia> itens = new ArrayList<>();
+
+    public CaixaEconomiaDTO toDTO() {
+        CaixaEconomiaDTO caixaEconomia = new CaixaEconomiaDTO();
+
+        caixaEconomia.setId(id);
+        caixaEconomia.setNome(nome);
+        caixaEconomia.setDescricao(descricao);
+        caixaEconomia.setValorObjetivo(valorObjetivo);
+        caixaEconomia.setValorEconomizado(valorEconomizado);
+        caixaEconomia.setPrazo(prazo);
+        caixaEconomia.setDataCriacao(dataCriacao);
+        caixaEconomia.setItens(itens.stream().map(ItemCaixaEconomia::toDTO).collect(Collectors.toList()));
+
+        return caixaEconomia;
+    }
 }
