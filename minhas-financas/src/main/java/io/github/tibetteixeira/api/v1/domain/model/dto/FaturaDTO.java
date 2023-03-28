@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +23,7 @@ public class FaturaDTO {
     private CartaoDTO cartao;
     private Mes mes;
     private Integer ano;
+    private List<GastoDTO> gastos;
 
     public Fatura toModel() {
         Fatura fatura = new Fatura();

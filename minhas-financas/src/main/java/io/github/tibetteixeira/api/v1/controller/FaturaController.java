@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.controller;
 
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import lombok.AllArgsConstructor;
@@ -21,13 +22,26 @@ public class FaturaController {
 
     @GetMapping(path = Rotas.ID)
     public FaturaDTO carregarFatura(@PathVariable Integer id) {
-        return service.buscarPorId(id).toDTO();
+        Fatura fatura = service.buscarPorId(id);
+        FaturaDTO faturaDTO = fatura.toDTO();
+        faturaDTO.setGastos(fatura.getGastos().stream()
+                .peek(gasto -> gasto.setFatura(null))
+                .map(Gasto::toDTO)
+                .collect(Collectors.toList()));
+        return faturaDTO;
     }
 
     @GetMapping(path = Rotas.CARTAO_ID)
     public List<FaturaDTO> carregarFaturasDoCartao(@PathVariable Integer cartao) {
         return service.buscarFaturaPorCartao(cartao).stream()
-                .map(Fatura::toDTO)
+                .map(fatura -> {
+                    FaturaDTO faturaDTO = fatura.toDTO();
+                    faturaDTO.setGastos(fatura.getGastos().stream()
+                            .peek(gasto -> gasto.setFatura(null))
+                            .map(Gasto::toDTO)
+                            .collect(Collectors.toList()));
+                    return faturaDTO;
+                })
                 .collect(Collectors.toList());
     }
 }
