@@ -23,20 +23,16 @@ public class Cartao {
     private Integer id;
 
     @Column
-    @NonNull
     private String nome;
 
     @Column(name = "num_final_cartao")
-    @NonNull
     private String ultimosQuatroDigitosCartao;
 
     @Column(name = "dia_vencimento")
-    @NonNull
     private Integer diaVencimento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    @NonNull
     private Usuario usuario;
 
     @JsonIgnore

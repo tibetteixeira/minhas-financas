@@ -27,7 +27,6 @@ public class CaixaEconomia {
     private Integer id;
 
     @Column(length = 100)
-    @NonNull
     private String nome;
 
     @Column
@@ -48,7 +47,6 @@ public class CaixaEconomia {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    @NonNull
     private Usuario usuario;
 
     @JsonIgnore

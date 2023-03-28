@@ -23,23 +23,19 @@ public class Pagamento {
     private Integer id;
 
     @Column
-    @NonNull
     private BigDecimal valor;
 
     @Column
     private String descricao;
 
     @Column(name = "data_pagamento")
-    @NonNull
     private Date dataPagamento;
 
     @Column(name = "tipo_pagamento")
-    @NonNull
     private TipoPagamento tipoPagamento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    @NonNull
     private Usuario usuario;
 
     @ManyToOne

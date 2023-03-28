@@ -2,7 +2,6 @@ package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
-import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +23,6 @@ public class CategoriaGasto {
     private Integer id;
 
     @Column(length = 100)
-    @NonNull
     private String descricao;
 
     @JsonIgnore

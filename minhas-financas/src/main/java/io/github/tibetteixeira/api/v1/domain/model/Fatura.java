@@ -23,7 +23,6 @@ public class Fatura {
     private Integer id;
 
     @Column(name = "data_vencimento")
-    @NonNull
     private Date dataVencimento;
 
     @Column(name = "status_pagamento_fatura")
@@ -34,7 +33,6 @@ public class Fatura {
 
     @ManyToOne
     @JoinColumn(name = "id_cartao")
-    @NonNull
     private Cartao cartao;
 
     public FaturaDTO toDTO() {

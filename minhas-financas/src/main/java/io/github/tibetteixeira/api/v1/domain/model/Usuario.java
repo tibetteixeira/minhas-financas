@@ -23,19 +23,15 @@ public class Usuario {
     private Integer id;
 
     @Column(length = 30)
-    @NonNull
     private String nome;
 
     @Column(length = 30)
-    @NonNull
     private String sobrenome;
 
     @Column(length = 100, unique = true)
-    @NonNull
     private String email;
 
     @Column
-    @NonNull
     private String senha;
 
     @Embedded

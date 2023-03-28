@@ -31,7 +31,6 @@ public class ItemCaixaEconomia {
 
     @ManyToOne
     @JoinColumn(name = "id_caixa_economia")
-    @NonNull
     private CaixaEconomia caixa;
 
     public ItemCaixaEconomiaDTO toDTO() {

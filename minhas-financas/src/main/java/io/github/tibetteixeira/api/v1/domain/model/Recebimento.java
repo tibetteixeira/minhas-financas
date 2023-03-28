@@ -25,7 +25,6 @@ public class Recebimento {
     private Date dataRecebimento;
 
     @Column
-    @NonNull
     private BigDecimal valor;
 
     @Column
