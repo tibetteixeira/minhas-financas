@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
@@ -52,5 +53,17 @@ public class FaturaServiceImpl implements FaturaService {
             throw new FaturaException("Não existe fatura para esse cartão.");
 
         return faturas;
+    }
+
+    @Override
+    public Fatura buscarFaturaDoCartaoPorMesAno(Fatura fatura) {
+        return repository.findByCartaoAndMesAndAno(fatura.getCartao(), fatura.getMes(), fatura.getAno());
+    }
+
+    @Override
+    public Fatura buscaOuSalva(Fatura fatura) {
+        Fatura faturaDaBase = buscarFaturaDoCartaoPorMesAno(fatura);
+        return Objects.isNull(faturaDaBase) ? repository.saveAndFlush(fatura) : faturaDaBase;
+
     }
 }

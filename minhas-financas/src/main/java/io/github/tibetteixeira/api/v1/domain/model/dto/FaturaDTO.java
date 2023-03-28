@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class FaturaDTO {
     private StatusPagamentoFatura status;
     private BigDecimal valorPago;
     private CartaoDTO cartao;
+    private Mes mes;
+    private Integer ano;
 
     public Fatura toModel() {
         Fatura fatura = new Fatura();
@@ -28,6 +31,8 @@ public class FaturaDTO {
         fatura.setStatus(status);
         fatura.setValorPago(valorPago);
         fatura.setCartao(cartao.toModel());
+        fatura.setMes(mes);
+        fatura.setAno(ano);
 
         return fatura;
     }

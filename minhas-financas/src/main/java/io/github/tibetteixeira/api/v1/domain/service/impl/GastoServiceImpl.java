@@ -4,6 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.GastoException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
+import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.repository.GastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +26,11 @@ public class GastoServiceImpl implements GastoService {
 
     @Override
     public void salvar(Gasto gasto) {
+        if (Objects.nonNull(gasto.getFatura())) {
+            Fatura fatura = faturaService.buscaOuSalva(gasto.getFatura());
+            gasto.setFatura(fatura);
+        }
+
         repository.save(gasto);
     }
 
@@ -31,10 +38,16 @@ public class GastoServiceImpl implements GastoService {
     public void atualizar(Integer id, Gasto gasto) {
         Gasto gastoDaBase = buscarPorId(id);
 
+        if (Objects.nonNull(gasto.getFatura())) {
+            Fatura fatura = faturaService.buscaOuSalva(gasto.getFatura());
+            gasto.setFatura(fatura);
+        }
+
         gastoDaBase.setDescricao(gasto.getDescricao());
         gastoDaBase.setDataGasto(gasto.getDataGasto());
         gastoDaBase.setCategoria(gasto.getCategoria());
         gastoDaBase.setValor(gasto.getValor());
+        gastoDaBase.setFatura(gasto.getFatura());
 
         repository.save(gastoDaBase);
     }
@@ -77,4 +90,8 @@ public class GastoServiceImpl implements GastoService {
         return repository.findAll();
     }
 
+    @Override
+    public List<Gasto> buscarGastosPorDataSemCartao(Integer ano, Mes mes) {
+        return repository.findByAnoAndMesAndFaturaIsNull(ano, mes.getNumeroMes());
+    }
 }

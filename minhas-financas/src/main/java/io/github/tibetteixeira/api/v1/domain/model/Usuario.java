@@ -47,6 +47,10 @@ public class Usuario {
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
+    List<Gasto> gastos = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
     List<Recebimento> recebimentos = new ArrayList<>();
 
     @JsonIgnore

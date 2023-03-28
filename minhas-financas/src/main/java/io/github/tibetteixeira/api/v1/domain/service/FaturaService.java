@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface FaturaService extends CrudService<Fatura, Integer> {
 
+    Fatura buscarFaturaDoCartaoPorMesAno(Fatura fatura);
+
     List<Fatura> buscarFaturaPorCartao(Integer cartaoId);
+
+    Fatura buscaOuSalva(Fatura fatura);
 }

@@ -3,6 +3,7 @@ package io.github.tibetteixeira.api.v1.controller;
 import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
+import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
@@ -58,6 +59,13 @@ public class GastoController {
     @GetMapping(path = Rotas.EMPTY)
     public List<GastoDTO> buscarTodas() {
         return service.buscarTodas().stream()
+                .map(Gasto::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(path = Rotas.DATA)
+    public List<GastoDTO> buscarGastosPorDataSemCartao(@RequestParam Integer ano, @RequestParam Mes mes) {
+        return service.buscarGastosPorDataSemCartao(ano, mes).stream()
                 .map(Gasto::toDTO)
                 .collect(Collectors.toList());
     }

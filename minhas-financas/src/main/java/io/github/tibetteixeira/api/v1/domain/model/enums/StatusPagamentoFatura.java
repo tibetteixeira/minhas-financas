@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusPagamentoFatura {
 
+    ABERTO("Aberto"),
     PAGO("Pago"),
     PAGO_PARCIALMENTE("Pago parcialmente"),
     ATRASADO("Atrasado");

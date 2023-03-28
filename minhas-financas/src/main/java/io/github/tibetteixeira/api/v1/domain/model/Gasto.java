@@ -2,10 +2,12 @@ package io.github.tibetteixeira.api.v1.domain.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -25,7 +27,6 @@ public class Gasto {
     private Date dataGasto;
 
     @Column
-    @NonNull
     private BigDecimal valor;
 
     @Column
@@ -35,9 +36,14 @@ public class Gasto {
     @ManyToOne
     private CategoriaGasto categoria;
 
-    @JoinColumn(name = "id_fatura")
     @ManyToOne
+    @JoinColumn(name = "id_fatura")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Fatura fatura;
+
+    @JoinColumn(name = "id_usuario")
+    @ManyToOne
+    private Usuario usuario;
 
     public GastoDTO toDTO() {
         GastoDTO gastoDTO = new GastoDTO();
@@ -47,7 +53,10 @@ public class Gasto {
         gastoDTO.setValor(valor);
         gastoDTO.setDescricao(descricao);
         gastoDTO.setCategoria(categoria.toDTO());
-        gastoDTO.setFatura(fatura.toDTO());
+        gastoDTO.setUsuario(usuario.toDTO());
+
+        if (Objects.nonNull(fatura))
+            gastoDTO.setFatura(fatura.toDTO());
 
         return gastoDTO;
     }
