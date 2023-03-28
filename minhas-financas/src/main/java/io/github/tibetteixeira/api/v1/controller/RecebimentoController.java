@@ -41,9 +41,10 @@ public class RecebimentoController {
         return service.buscarPorId(id).toDTO();
     }
 
-    @GetMapping(path = "/categoria/{id}")
-    public List<RecebimentoDTO> buscarPorCategoria(@PathVariable Integer id) {
-        return service.buscarRecebimentoPorCategoria(id).stream()
+
+    @GetMapping(path = Rotas.DESCRICAO)
+    public List<RecebimentoDTO> buscarPorDescricao(@PathVariable String descricao) {
+        return service.buscarPorDescricao(descricao).stream()
                 .map(Recebimento::toDTO)
                 .collect(Collectors.toList());
     }

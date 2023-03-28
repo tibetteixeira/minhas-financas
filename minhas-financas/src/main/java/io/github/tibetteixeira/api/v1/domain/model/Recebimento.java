@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.RecebimentoDTO;
+import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,9 +31,9 @@ public class Recebimento {
     @Column
     private String descricao;
 
-    @JoinColumn(name = "id_categoria")
-    @ManyToOne
-    private CategoriaRecebimento categoria;
+    @Column(name = "tipo_recebimento")
+    @Enumerated(EnumType.STRING)
+    private TipoRecebimento tipoRecebimento = TipoRecebimento.PIX;
 
     @JoinColumn(name = "id_usuario")
     @ManyToOne
@@ -45,7 +46,8 @@ public class Recebimento {
         recebimentoDTO.setDataRecebimento(dataRecebimento);
         recebimentoDTO.setValor(valor);
         recebimentoDTO.setDescricao(descricao);
-        recebimentoDTO.setCategoria(categoria.toDTO());
+        recebimentoDTO.setTipoRecebimento(tipoRecebimento);
+        recebimentoDTO.setUsuario(usuario.toDTO());
 
         return recebimentoDTO;
     }

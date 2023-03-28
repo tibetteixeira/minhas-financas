@@ -1,12 +1,9 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
 import io.github.tibetteixeira.api.v1.domain.exception.RecebimentoException;
-import io.github.tibetteixeira.api.v1.domain.model.CategoriaRecebimento;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
-import io.github.tibetteixeira.api.v1.domain.service.CategoriaRecebimentoService;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
-import io.github.tibetteixeira.util.CollectionsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +14,6 @@ import java.util.List;
 public class RecebimentoServiceImpl implements RecebimentoService {
 
     private RecebimentoRepository repository;
-    private CategoriaRecebimentoService categoriaRecebimentoService;
 
     @Override
     public void salvar(Recebimento recebimento) {
@@ -30,7 +26,7 @@ public class RecebimentoServiceImpl implements RecebimentoService {
 
         recebimentoDaBase.setDescricao(recebimento.getDescricao());
         recebimentoDaBase.setDataRecebimento(recebimento.getDataRecebimento());
-        recebimentoDaBase.setCategoria(recebimento.getCategoria());
+        recebimentoDaBase.setTipoRecebimento(recebimento.getTipoRecebimento());
         recebimentoDaBase.setValor(recebimento.getValor());
 
         repository.save(recebimentoDaBase);
@@ -48,14 +44,8 @@ public class RecebimentoServiceImpl implements RecebimentoService {
     }
 
     @Override
-    public List<Recebimento> buscarRecebimentoPorCategoria(Integer idCategoria) {
-        CategoriaRecebimento categoria = categoriaRecebimentoService.buscarPorId(idCategoria);
-        List<Recebimento> recebimentos = repository.findByCategoria(categoria);
-
-        if (CollectionsUtils.listaValida(recebimentos))
-            return recebimentos;
-
-        throw new RecebimentoException("Não há recebimentos para essa categoria.");
+    public List<Recebimento> buscarPorDescricao(String descricao) {
+        return repository.findByDescricaoContainsIgnoreCase(descricao);
     }
 
     @Override

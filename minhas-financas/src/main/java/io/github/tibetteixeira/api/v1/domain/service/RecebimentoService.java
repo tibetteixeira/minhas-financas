@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RecebimentoService extends CrudService<Recebimento, Integer> {
 
-    List<Recebimento> buscarRecebimentoPorCategoria(Integer id);
+    List<Recebimento> buscarPorDescricao(String descricao);
 
     List<Recebimento> buscarTodas();
 
