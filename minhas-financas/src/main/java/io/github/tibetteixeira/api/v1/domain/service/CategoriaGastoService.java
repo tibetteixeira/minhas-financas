@@ -7,4 +7,6 @@ import java.util.List;
 public interface CategoriaGastoService extends CrudService<CategoriaGasto, Integer> {
 
     List<CategoriaGasto> buscarCategoriaPorDescricao(String descricao);
+
+    List<CategoriaGasto> buscarTodos();
 }

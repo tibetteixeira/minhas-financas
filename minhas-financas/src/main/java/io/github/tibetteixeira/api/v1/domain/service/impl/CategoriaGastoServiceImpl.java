@@ -42,4 +42,9 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     public List<CategoriaGasto> buscarCategoriaPorDescricao(String descricao) {
         return repository.findByDescricaoContainsIgnoreCase(descricao);
     }
+
+    @Override
+    public List<CategoriaGasto> buscarTodos() {
+        return repository.findAll();
+    }
 }

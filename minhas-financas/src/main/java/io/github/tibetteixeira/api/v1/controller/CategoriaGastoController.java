@@ -47,4 +47,11 @@ public class CategoriaGastoController {
                 .map(CategoriaGasto::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping(path = Rotas.EMPTY)
+    public List<CategoriaGastoDTO> buscarTodos() {
+        return service.buscarTodos().stream()
+                .map(CategoriaGasto::toDTO)
+                .collect(Collectors.toList());
+    }
 }
