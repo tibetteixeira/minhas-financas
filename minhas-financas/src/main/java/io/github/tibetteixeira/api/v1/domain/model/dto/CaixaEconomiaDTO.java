@@ -1,7 +1,9 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
+import io.github.tibetteixeira.util.NumericUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,8 @@ public class CaixaEconomiaDTO {
     private BigDecimal valorEconomizado;
     private Integer prazo;
     private Date dataCriacao;
-    private Usuario usuario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Integer usuarioId;
     private List<ItemCaixaEconomiaDTO> itens = new ArrayList<>();
 
     public CaixaEconomia toModel() {
@@ -36,10 +39,11 @@ public class CaixaEconomiaDTO {
         caixaEconomia.setNome(nome);
         caixaEconomia.setDescricao(descricao);
         caixaEconomia.setValorObjetivo(valorObjetivo);
-        caixaEconomia.setValorEconomizado(valorEconomizado);
+        caixaEconomia.setValorEconomizado(NumericUtils.zeroIfNull(valorEconomizado));
         caixaEconomia.setPrazo(prazo);
         caixaEconomia.setDataCriacao(dataCriacao);
         caixaEconomia.setItens(itens.stream().map(ItemCaixaEconomiaDTO::toModel).collect(Collectors.toList()));
+        caixaEconomia.setUsuario(new Usuario(usuarioId));
 
         return caixaEconomia;
     }

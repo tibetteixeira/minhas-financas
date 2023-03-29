@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class ItemCaixaEconomia {
         item.setId(id);
         item.setValor(valor);
         item.setDataEconomia(dataEconomia);
-        item.setCaixa(caixa.toDTO());
+        item.setCaixaId(Objects.nonNull(caixa) ? caixa.getId() : null);
 
         return item;
     }

@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
+import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.ItemCaixaEconomia;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class ItemCaixaEconomiaDTO {
     private Integer id;
     private BigDecimal valor;
     private Date dataEconomia;
-    private CaixaEconomiaDTO caixa;
+    private Integer caixaId;
 
     public ItemCaixaEconomia toModel() {
         ItemCaixaEconomia item = new ItemCaixaEconomia();
@@ -26,7 +27,7 @@ public class ItemCaixaEconomiaDTO {
         item.setId(id);
         item.setValor(valor);
         item.setDataEconomia(dataEconomia);
-        item.setCaixa(caixa.toModel());
+        item.setCaixa(new CaixaEconomia(caixaId));
 
         return item;
     }

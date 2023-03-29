@@ -3,6 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
+import io.github.tibetteixeira.util.NumericUtils;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -36,7 +38,7 @@ public class CaixaEconomia {
     private BigDecimal valorObjetivo;
 
     @Column(name = "valor_economizado")
-    private BigDecimal valorEconomizado;
+    private BigDecimal valorEconomizado = BigDecimal.ZERO;
 
     @Column
     private Integer prazo;
@@ -53,6 +55,10 @@ public class CaixaEconomia {
     @OneToMany(mappedBy = "caixa")
     private List<ItemCaixaEconomia> itens = new ArrayList<>();
 
+    public CaixaEconomia(Integer id) {
+        this.id = id;
+    }
+
     public CaixaEconomiaDTO toDTO() {
         CaixaEconomiaDTO caixaEconomia = new CaixaEconomiaDTO();
 
@@ -60,10 +66,11 @@ public class CaixaEconomia {
         caixaEconomia.setNome(nome);
         caixaEconomia.setDescricao(descricao);
         caixaEconomia.setValorObjetivo(valorObjetivo);
-        caixaEconomia.setValorEconomizado(valorEconomizado);
+        caixaEconomia.setValorEconomizado(NumericUtils.zeroIfNull(valorEconomizado));
         caixaEconomia.setPrazo(prazo);
         caixaEconomia.setDataCriacao(dataCriacao);
         caixaEconomia.setItens(itens.stream().map(ItemCaixaEconomia::toDTO).collect(Collectors.toList()));
+        caixaEconomia.setUsuarioId(Objects.nonNull(usuario) ? usuario.getId() : null);
 
         return caixaEconomia;
     }

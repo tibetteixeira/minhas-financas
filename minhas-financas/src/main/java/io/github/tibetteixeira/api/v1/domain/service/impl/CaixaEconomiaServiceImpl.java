@@ -9,6 +9,7 @@ import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +21,7 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
 
     @Override
     public void salvar(CaixaEconomia caixaEconomia) {
+        caixaEconomia.setDataCriacao(new Date());
         repository.save(caixaEconomia);
     }
 
@@ -60,6 +62,7 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
 
     @Override
     public void salvar(ItemCaixaEconomia itemCaixaEconomia) {
+        itemCaixaEconomia.setDataEconomia(new Date());
         itemCaixaEconomiaRepository.save(itemCaixaEconomia);
     }
 
@@ -67,7 +70,6 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
     public void atualizar(Integer id, ItemCaixaEconomia itemCaixaEconomia) {
         ItemCaixaEconomia itemCaixaEconomiaDaBase = buscarItemPorId(id);
 
-        itemCaixaEconomiaDaBase.setDataEconomia(itemCaixaEconomia.getDataEconomia());
         itemCaixaEconomiaDaBase.setValor(itemCaixaEconomia.getValor());
 
         itemCaixaEconomiaRepository.save(itemCaixaEconomiaDaBase);
