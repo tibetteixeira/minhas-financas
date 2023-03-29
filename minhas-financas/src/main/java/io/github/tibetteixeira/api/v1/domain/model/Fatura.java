@@ -47,6 +47,10 @@ public class Fatura {
     @OneToMany(mappedBy = "fatura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gasto> gastos;
 
+    public Fatura(Integer id) {
+        this.id = id;
+    }
+
     public FaturaDTO toDTO() {
         FaturaDTO fatura = new FaturaDTO();
 

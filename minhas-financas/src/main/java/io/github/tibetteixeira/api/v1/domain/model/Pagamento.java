@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -32,15 +33,12 @@ public class Pagamento {
     private Date dataPagamento;
 
     @Column(name = "tipo_pagamento")
+    @Enumerated(EnumType.STRING)
     private TipoPagamento tipoPagamento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "id_gasto")
-    private Gasto gasto;
 
     @ManyToOne
     @JoinColumn(name = "id_fatura")
@@ -54,9 +52,8 @@ public class Pagamento {
         pagamento.setDescricao(descricao);
         pagamento.setDataPagamento(dataPagamento);
         pagamento.setTipoPagamento(tipoPagamento);
-        pagamento.setGasto(gasto.toDTO());
-        pagamento.setFatura(fatura.toDTO());
-
+        pagamento.setFaturaId(Objects.nonNull(fatura) ? fatura.getId() : null);
+        pagamento.setUsuarioId(usuario.getId());
         return pagamento;
     }
 

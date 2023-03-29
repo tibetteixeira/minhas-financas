@@ -21,6 +21,5 @@ public class Rotas {
     public static final String GASTO = "/api/v1/gasto";
     public static final String PAGAMENTO = "/api/v1/pagamento";
     public static final String RECEBIMENTO = "/api/v1/recebimento";
-    public static final String CATEGORIA_RECEBIMENTO = "/api/v1/categoria_recebimento";
     public static final String CAIXA_ECONOMIA = "/api/v1/caixa";
 }

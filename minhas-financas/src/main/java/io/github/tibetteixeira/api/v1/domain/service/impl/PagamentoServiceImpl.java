@@ -2,6 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 
 import io.github.tibetteixeira.api.v1.domain.exception.PagamentoException;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
+import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.repository.PagamentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.PagamentoService;
@@ -53,5 +54,10 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Override
     public List<Pagamento> buscarTodos() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Pagamento> buscarPagamentosPorDataSemCartao(Integer ano, Mes mes) {
+        return repository.findByAnoAndMesAndFaturaIsNull(ano, mes.getNumeroMes());
     }
 }
