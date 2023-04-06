@@ -7,6 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.repository.CaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.repository.ItemCaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -70,9 +71,11 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
     public void atualizar(Integer id, ItemCaixaEconomia itemCaixaEconomia) {
         ItemCaixaEconomia itemCaixaEconomiaDaBase = buscarItemPorId(id);
 
-        itemCaixaEconomiaDaBase.setValor(itemCaixaEconomia.getValor());
-
-        itemCaixaEconomiaRepository.save(itemCaixaEconomiaDaBase);
+        if (BooleanUtils.isFalse(itemCaixaEconomia.getValor().equals(itemCaixaEconomiaDaBase.getValor()))) {
+            itemCaixaEconomiaDaBase.setValor(itemCaixaEconomia.getValor());
+            itemCaixaEconomiaDaBase.setDataEconomia(new Date());
+            itemCaixaEconomiaRepository.save(itemCaixaEconomiaDaBase);
+        }
     }
 
     @Override
