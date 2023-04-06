@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "caixa_economia")
 public class CaixaEconomia {
 
@@ -60,18 +61,16 @@ public class CaixaEconomia {
     }
 
     public CaixaEconomiaDTO toDTO() {
-        CaixaEconomiaDTO caixaEconomia = new CaixaEconomiaDTO();
-
-        caixaEconomia.setId(id);
-        caixaEconomia.setNome(nome);
-        caixaEconomia.setDescricao(descricao);
-        caixaEconomia.setValorObjetivo(valorObjetivo);
-        caixaEconomia.setValorEconomizado(NumericUtils.zeroIfNull(valorEconomizado));
-        caixaEconomia.setPrazo(prazo);
-        caixaEconomia.setDataCriacao(dataCriacao);
-        caixaEconomia.setItens(itens.stream().map(ItemCaixaEconomia::toDTO).collect(Collectors.toList()));
-        caixaEconomia.setUsuarioId(Objects.nonNull(usuario) ? usuario.getId() : null);
-
-        return caixaEconomia;
+        return CaixaEconomiaDTO.builder()
+                .id(id)
+                .nome(nome)
+                .descricao(descricao)
+                .valorObjetivo(valorObjetivo)
+                .valorEconomizado(NumericUtils.zeroIfNull(valorEconomizado))
+                .prazo(prazo)
+                .dataCriacao(dataCriacao)
+                .itens(itens.stream().map(ItemCaixaEconomia::toDTO).collect(Collectors.toList()))
+                .usuarioId(Objects.nonNull(usuario) ? usuario.getId() : null)
+                .build();
     }
 }

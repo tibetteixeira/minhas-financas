@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "cartao")
 public class Cartao {
 
@@ -44,14 +45,13 @@ public class Cartao {
     }
 
     public CartaoDTO toDTO() {
-        CartaoDTO cartao = new CartaoDTO();
+        return CartaoDTO.builder()
+                .id(id)
+                .nome(nome)
+                .ultimosQuatroDigitosCartao(ultimosQuatroDigitosCartao)
+                .diaVencimento(diaVencimento)
+                .usuarioId(usuario.getId())
+                .build();
 
-        cartao.setId(id);
-        cartao.setNome(nome);
-        cartao.setUltimosQuatroDigitosCartao(ultimosQuatroDigitosCartao);
-        cartao.setDiaVencimento(diaVencimento);
-        cartao.setUsuarioId(usuario.getId());
-
-        return cartao;
     }
 }

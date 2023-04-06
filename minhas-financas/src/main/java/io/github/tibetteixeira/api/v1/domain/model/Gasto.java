@@ -14,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "gasto")
 public class Gasto {
 
@@ -46,18 +47,14 @@ public class Gasto {
     private Usuario usuario;
 
     public GastoDTO toDTO() {
-        GastoDTO gastoDTO = new GastoDTO();
-
-        gastoDTO.setId(id);
-        gastoDTO.setDataGasto(dataGasto);
-        gastoDTO.setValor(valor);
-        gastoDTO.setDescricao(descricao);
-        gastoDTO.setCategoria(categoria.toDTO());
-        gastoDTO.setUsuario(usuario.toDTO());
-
-        if (Objects.nonNull(fatura))
-            gastoDTO.setFatura(fatura.toDTO());
-
-        return gastoDTO;
+        return GastoDTO.builder()
+                .id(id)
+                .dataGasto(dataGasto)
+                .valor(valor)
+                .descricao(descricao)
+                .categoria(categoria.toDTO())
+                .usuario(usuario.toDTO())
+                .fatura(Objects.nonNull(fatura) ? fatura.toDTO() : null)
+                .build();
     }
 }

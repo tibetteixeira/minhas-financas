@@ -14,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "item_caixa_economia")
 public class ItemCaixaEconomia {
 
@@ -35,13 +36,11 @@ public class ItemCaixaEconomia {
     private CaixaEconomia caixa;
 
     public ItemCaixaEconomiaDTO toDTO() {
-        ItemCaixaEconomiaDTO item = new ItemCaixaEconomiaDTO();
-
-        item.setId(id);
-        item.setValor(valor);
-        item.setDataEconomia(dataEconomia);
-        item.setCaixaId(Objects.nonNull(caixa) ? caixa.getId() : null);
-
-        return item;
+        return ItemCaixaEconomiaDTO.builder()
+                .id(id)
+                .valor(valor)
+                .dataEconomia(dataEconomia)
+                .caixaId(Objects.nonNull(caixa) ? caixa.getId() : null)
+                .build();
     }
 }

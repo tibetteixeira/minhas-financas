@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "fatura")
 public class Fatura {
 
@@ -52,16 +53,14 @@ public class Fatura {
     }
 
     public FaturaDTO toDTO() {
-        FaturaDTO fatura = new FaturaDTO();
-
-        fatura.setId(id);
-        fatura.setDataVencimento(dataVencimento);
-        fatura.setStatus(status);
-        fatura.setValorPago(valorPago);
-        fatura.setCartao(cartao.toDTO());
-        fatura.setMes(mes);
-        fatura.setAno(ano);
-
-        return fatura;
+        return FaturaDTO.builder()
+                .id(id)
+                .dataVencimento(dataVencimento)
+                .status(status)
+                .valorPago(valorPago)
+                .cartao(cartao.toDTO())
+                .mes(mes)
+                .ano(ano)
+                .build();
     }
 }

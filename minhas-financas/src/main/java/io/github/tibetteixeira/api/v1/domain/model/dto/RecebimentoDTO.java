@@ -3,9 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RecebimentoDTO {
 
     private Integer id;
@@ -24,15 +24,13 @@ public class RecebimentoDTO {
     private UsuarioDTO usuario;
 
     public Recebimento toModel() {
-        Recebimento recebimento = new Recebimento();
-
-        recebimento.setId(id);
-        recebimento.setDataRecebimento(dataRecebimento);
-        recebimento.setValor(valor);
-        recebimento.setDescricao(descricao);
-        recebimento.setTipoRecebimento(tipoRecebimento);
-        recebimento.setUsuario(usuario.toModel());
-
-        return recebimento;
+        return Recebimento.builder()
+                .id(id)
+                .dataRecebimento(dataRecebimento)
+                .valor(valor)
+                .descricao(descricao)
+                .tipoRecebimento(tipoRecebimento)
+                .usuario(usuario.toModel())
+                .build();
     }
 }

@@ -4,10 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.model.enums.TipoPagamento;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,6 +14,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PagamentoDTO {
 
     private Integer id;
@@ -28,16 +26,14 @@ public class PagamentoDTO {
     private Integer faturaId;
 
     public Pagamento toModel() {
-        Pagamento pagamento = new Pagamento();
-
-        pagamento.setId(id);
-        pagamento.setValor(valor);
-        pagamento.setDescricao(descricao);
-        pagamento.setDataPagamento(dataPagamento);
-        pagamento.setTipoPagamento(tipoPagamento);
-        pagamento.setUsuario(new Usuario(usuarioId));
-        pagamento.setFatura(Objects.nonNull(faturaId) ? new Fatura(faturaId) : null);
-
-        return pagamento;
+        return Pagamento.builder()
+                .id(id)
+                .valor(valor)
+                .descricao(descricao)
+                .dataPagamento(dataPagamento)
+                .tipoPagamento(tipoPagamento)
+                .usuario(new Usuario(usuarioId))
+                .fatura(Objects.nonNull(faturaId) ? new Fatura(faturaId) : null)
+                .build();
     }
 }

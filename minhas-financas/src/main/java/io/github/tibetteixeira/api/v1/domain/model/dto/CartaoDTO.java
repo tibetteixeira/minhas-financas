@@ -2,13 +2,13 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CartaoDTO {
 
     private Integer id;
@@ -18,14 +18,12 @@ public class CartaoDTO {
     private Integer usuarioId;
 
     public Cartao toModel() {
-        Cartao cartao = new Cartao();
-
-        cartao.setId(id);
-        cartao.setNome(nome);
-        cartao.setUltimosQuatroDigitosCartao(ultimosQuatroDigitosCartao);
-        cartao.setDiaVencimento(diaVencimento);
-        cartao.setUsuario(new Usuario(usuarioId));
-
-        return cartao;
+        return Cartao.builder()
+                .id(id)
+                .nome(nome)
+                .ultimosQuatroDigitosCartao(ultimosQuatroDigitosCartao)
+                .diaVencimento(diaVencimento)
+                .usuario(new Usuario(usuarioId))
+                .build();
     }
 }

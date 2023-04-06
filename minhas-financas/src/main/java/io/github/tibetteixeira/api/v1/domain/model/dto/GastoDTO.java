@@ -2,9 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GastoDTO {
 
     private Integer id;
@@ -25,18 +25,14 @@ public class GastoDTO {
     private UsuarioDTO usuario;
 
     public Gasto toModel() {
-        Gasto gasto = new Gasto();
-
-        gasto.setId(id);
-        gasto.setDataGasto(dataGasto);
-        gasto.setValor(valor);
-        gasto.setDescricao(descricao);
-        gasto.setCategoria(categoria.toModel());
-        gasto.setUsuario(usuario.toModel());
-
-        if (Objects.nonNull(fatura))
-            gasto.setFatura(fatura.toModel());
-
-        return gasto;
+        return Gasto.builder()
+                .id(id)
+                .dataGasto(dataGasto)
+                .valor(valor)
+                .descricao(descricao)
+                .categoria(categoria.toModel())
+                .usuario(usuario.toModel())
+                .fatura(Objects.nonNull(fatura) ? fatura.toModel() : null)
+                .build();
     }
 }

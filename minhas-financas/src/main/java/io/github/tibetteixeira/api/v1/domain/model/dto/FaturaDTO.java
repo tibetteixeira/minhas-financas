@@ -3,9 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,6 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FaturaDTO {
 
     private Integer id;
@@ -26,16 +26,14 @@ public class FaturaDTO {
     private List<GastoDTO> gastos;
 
     public Fatura toModel() {
-        Fatura fatura = new Fatura();
-
-        fatura.setId(id);
-        fatura.setDataVencimento(dataVencimento);
-        fatura.setStatus(status);
-        fatura.setValorPago(valorPago);
-        fatura.setCartao(cartao.toModel());
-        fatura.setMes(mes);
-        fatura.setAno(ano);
-
-        return fatura;
+        return Fatura.builder()
+                .id(id)
+                .dataVencimento(dataVencimento)
+                .status(status)
+                .valorPago(valorPago)
+                .cartao(cartao.toModel())
+                .mes(mes)
+                .ano(ano)
+                .build();
     }
 }

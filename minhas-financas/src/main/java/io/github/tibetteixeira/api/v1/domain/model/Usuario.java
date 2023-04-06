@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "usuario")
 public class Usuario {
 
@@ -62,15 +63,12 @@ public class Usuario {
     }
 
     public UsuarioDTO toDTO() {
-
-        UsuarioDTO usuario = new UsuarioDTO();
-
-        usuario.setId(this.id);
-        usuario.setNome(this.nome);
-        usuario.setSobrenome(this.sobrenome);
-        usuario.setEmail(this.email);
-        usuario.setSenha(this.senha);
-
-        return usuario;
+        return UsuarioDTO.builder()
+                .id(id)
+                .nome(nome)
+                .sobrenome(sobrenome)
+                .email(email)
+                .senha(senha)
+                .build();
     }
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "recebimento")
 public class Recebimento {
 
@@ -40,15 +41,13 @@ public class Recebimento {
     private Usuario usuario;
 
     public RecebimentoDTO toDTO() {
-        RecebimentoDTO recebimentoDTO = new RecebimentoDTO();
-
-        recebimentoDTO.setId(id);
-        recebimentoDTO.setDataRecebimento(dataRecebimento);
-        recebimentoDTO.setValor(valor);
-        recebimentoDTO.setDescricao(descricao);
-        recebimentoDTO.setTipoRecebimento(tipoRecebimento);
-        recebimentoDTO.setUsuario(usuario.toDTO());
-
-        return recebimentoDTO;
+        return RecebimentoDTO.builder()
+                .id(id)
+                .dataRecebimento(dataRecebimento)
+                .valor(valor)
+                .descricao(descricao)
+                .tipoRecebimento(tipoRecebimento)
+                .usuario(usuario.toDTO())
+                .build();
     }
 }

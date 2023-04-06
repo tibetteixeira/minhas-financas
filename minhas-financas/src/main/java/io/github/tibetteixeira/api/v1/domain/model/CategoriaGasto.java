@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "categoria_gasto")
 public class CategoriaGasto {
 
@@ -30,11 +31,9 @@ public class CategoriaGasto {
     private List<Gasto> gastos = new ArrayList<>();
 
     public CategoriaGastoDTO toDTO() {
-        CategoriaGastoDTO categoriaGastoDTO = new CategoriaGastoDTO();
-
-        categoriaGastoDTO.setId(id);
-        categoriaGastoDTO.setDescricao(descricao);
-
-        return categoriaGastoDTO;
+        return CategoriaGastoDTO.builder()
+                .id(id)
+                .descricao(descricao)
+                .build();
     }
 }

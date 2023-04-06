@@ -1,13 +1,13 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UsuarioDTO {
 
     private Integer id;
@@ -17,15 +17,13 @@ public class UsuarioDTO {
     private String senha;
 
     public Usuario toModel() {
+        return Usuario.builder()
+                .id(id)
+                .nome(nome)
+                .sobrenome(sobrenome)
+                .email(email)
+                .senha(senha)
+                .build();
 
-        Usuario usuario = new Usuario();
-
-        usuario.setId(id);
-        usuario.setNome(nome);
-        usuario.setSobrenome(sobrenome);
-        usuario.setEmail(email);
-        usuario.setSenha(senha);
-
-        return usuario;
     }
 }

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.util.NumericUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CaixaEconomiaDTO {
 
     private Integer id;
@@ -33,18 +31,16 @@ public class CaixaEconomiaDTO {
     private List<ItemCaixaEconomiaDTO> itens = new ArrayList<>();
 
     public CaixaEconomia toModel() {
-        CaixaEconomia caixaEconomia = new CaixaEconomia();
-
-        caixaEconomia.setId(id);
-        caixaEconomia.setNome(nome);
-        caixaEconomia.setDescricao(descricao);
-        caixaEconomia.setValorObjetivo(valorObjetivo);
-        caixaEconomia.setValorEconomizado(NumericUtils.zeroIfNull(valorEconomizado));
-        caixaEconomia.setPrazo(prazo);
-        caixaEconomia.setDataCriacao(dataCriacao);
-        caixaEconomia.setItens(itens.stream().map(ItemCaixaEconomiaDTO::toModel).collect(Collectors.toList()));
-        caixaEconomia.setUsuario(new Usuario(usuarioId));
-
-        return caixaEconomia;
+        return CaixaEconomia.builder()
+                .id(id)
+                .nome(nome)
+                .descricao(descricao)
+                .valorObjetivo(valorObjetivo)
+                .valorEconomizado(NumericUtils.zeroIfNull(valorEconomizado))
+                .prazo(prazo)
+                .dataCriacao(dataCriacao)
+                .itens(itens.stream().map(ItemCaixaEconomiaDTO::toModel).collect(Collectors.toList()))
+                .usuario(new Usuario(usuarioId))
+                .build();
     }
 }
