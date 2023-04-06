@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CategoriaGastoRepository extends JpaRepository<CategoriaGasto, Integer> {
 
-    List<CategoriaGasto> findByDescricaoContainsIgnoreCase(String descricao);
+    List<CategoriaGasto> findByDescricaoContainsIgnoreCaseOrderByDescricao(String descricao);
 }

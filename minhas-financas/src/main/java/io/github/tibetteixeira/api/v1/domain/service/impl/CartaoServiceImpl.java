@@ -53,7 +53,7 @@ public class CartaoServiceImpl implements CartaoService {
     public List<Cartao> buscarTodosOsCartoesPorUsuario(Integer usuarioId) {
         Usuario usuarioDaBase = usuarioService.buscarPorId(usuarioId);
 
-        List<Cartao> cartoes = repository.findCartaoByUsuario(usuarioDaBase);
+        List<Cartao> cartoes = repository.findCartaoByUsuarioOrderById(usuarioDaBase);
 
         if (listaNaoValida(cartoes))
             throw new CartaoException("Este usuário não possui cartão cadastrado.");
@@ -63,7 +63,7 @@ public class CartaoServiceImpl implements CartaoService {
 
     @Override
     public List<Cartao> buscarTodosOsCartoesPorNome(String nomeCartao) {
-        List<Cartao> cartoes = repository.findByNomeContainsIgnoreCase(nomeCartao);
+        List<Cartao> cartoes = repository.findByNomeContainsIgnoreCaseOrderById(nomeCartao);
 
         if (listaNaoValida(cartoes))
             throw new CartaoException("Não existe cartão com esse nome.");

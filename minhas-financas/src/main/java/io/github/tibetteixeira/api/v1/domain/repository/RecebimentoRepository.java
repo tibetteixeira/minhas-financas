@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RecebimentoRepository extends JpaRepository<Recebimento, Integer> {
 
-    List<Recebimento> findByDescricaoContainsIgnoreCase(String descricao);
+    List<Recebimento> findByDescricaoContainsIgnoreCaseOrderByDataRecebimentoDesc(String descricao);
 }

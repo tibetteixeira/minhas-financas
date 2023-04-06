@@ -11,6 +11,7 @@ import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
 import io.github.tibetteixeira.util.CollectionsUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,7 +67,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     public List<Gasto> buscarGastoPorCategoria(Integer idCategoria) {
         CategoriaGasto categoria = categoriaGastoService.buscarPorId(idCategoria);
-        List<Gasto> gastos = repository.findByCategoria(categoria);
+        List<Gasto> gastos = repository.findByCategoriaOrderByDataGastoDesc(categoria);
 
         if (CollectionsUtils.listaValida(gastos))
             return gastos;
@@ -77,7 +78,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     public List<Gasto> buscarGastoPorFatura(Integer idFatura) {
         Fatura fatura = faturaService.buscarPorId(idFatura);
-        List<Gasto> gastos = repository.findByFatura(fatura);
+        List<Gasto> gastos = repository.findByFaturaOrderByDataGastoDesc(fatura);
 
         if (CollectionsUtils.listaValida(gastos))
             return gastos;
@@ -87,7 +88,7 @@ public class GastoServiceImpl implements GastoService {
 
     @Override
     public List<Gasto> buscarTodas() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "dataGasto"));
     }
 
     @Override

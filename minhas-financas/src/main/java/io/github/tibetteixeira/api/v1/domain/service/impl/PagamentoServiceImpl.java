@@ -7,6 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.repository.PagamentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.PagamentoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,12 +49,12 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public List<Pagamento> buscarPagamentoPorFatura(Integer id) {
-        return repository.findByFatura(faturaService.buscarPorId(id));
+        return repository.findByFaturaOrderByDataPagamentoDesc(faturaService.buscarPorId(id));
     }
 
     @Override
     public List<Pagamento> buscarTodos() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "dataPagamento"));
     }
 
     @Override

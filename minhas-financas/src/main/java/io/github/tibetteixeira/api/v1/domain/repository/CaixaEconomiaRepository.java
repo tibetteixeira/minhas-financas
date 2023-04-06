@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CaixaEconomiaRepository extends JpaRepository<CaixaEconomia, Integer> {
 
-    List<CaixaEconomia> findByNomeContainsIgnoreCase(String nome);
+    List<CaixaEconomia> findByNomeContainsIgnoreCaseOrderByNome(String nome);
 }

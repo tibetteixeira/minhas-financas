@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
-    List<Fatura> findByCartao(Cartao cartao);
+    List<Fatura> findByCartaoOrderByDataVencimentoDesc(Cartao cartao);
 
     Fatura findByCartaoAndMesAndAno(Cartao cartao, Mes mes, Integer ano);
 }

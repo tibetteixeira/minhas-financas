@@ -8,6 +8,7 @@ import io.github.tibetteixeira.api.v1.domain.repository.ItemCaixaEconomiaReposit
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -53,12 +54,12 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
 
     @Override
     public List<CaixaEconomia> buscarPorNome(String nome) {
-        return repository.findByNomeContainsIgnoreCase(nome);
+        return repository.findByNomeContainsIgnoreCaseOrderByNome(nome);
     }
 
     @Override
     public List<CaixaEconomia> buscarTodas() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

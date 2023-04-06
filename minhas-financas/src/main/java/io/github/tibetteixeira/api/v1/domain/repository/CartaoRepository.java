@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface CartaoRepository extends JpaRepository<Cartao, Integer> {
 
-    List<Cartao> findCartaoByUsuario(Usuario usuario);
+    List<Cartao> findCartaoByUsuarioOrderById(Usuario usuario);
 
-    List<Cartao> findByNomeContainsIgnoreCase(String nomeCartao);
+    List<Cartao> findByNomeContainsIgnoreCaseOrderById(String nomeCartao);
 
 }

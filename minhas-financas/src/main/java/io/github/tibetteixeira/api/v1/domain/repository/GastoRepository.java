@@ -12,12 +12,12 @@ import java.util.List;
 @Repository
 public interface GastoRepository extends JpaRepository<Gasto, Integer> {
 
-    List<Gasto> findByCategoria(CategoriaGasto categoriaGasto);
+    List<Gasto> findByCategoriaOrderByDataGastoDesc(CategoriaGasto categoriaGasto);
 
-    List<Gasto> findByFatura(Fatura fatura);
+    List<Gasto> findByFaturaOrderByDataGastoDesc(Fatura fatura);
 
     @Query(
-            value = "SELECT G FROM Gasto G WHERE YEAR(G.dataGasto) = :ano AND MONTH(G.dataGasto) = :mes AND G.fatura is null"
+            value = "SELECT G FROM Gasto G WHERE YEAR(G.dataGasto) = :ano AND MONTH(G.dataGasto) = :mes AND G.fatura is null ORDER BY dataGasto DESC"
     )
     List<Gasto> findByAnoAndMesAndFaturaIsNull(Integer ano, Integer mes);
 }

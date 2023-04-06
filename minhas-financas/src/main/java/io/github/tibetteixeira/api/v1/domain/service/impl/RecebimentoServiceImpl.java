@@ -5,6 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,12 +46,12 @@ public class RecebimentoServiceImpl implements RecebimentoService {
 
     @Override
     public List<Recebimento> buscarPorDescricao(String descricao) {
-        return repository.findByDescricaoContainsIgnoreCase(descricao);
+        return repository.findByDescricaoContainsIgnoreCaseOrderByDataRecebimentoDesc(descricao);
     }
 
     @Override
     public List<Recebimento> buscarTodas() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "dataRecebimento"));
     }
 
 }

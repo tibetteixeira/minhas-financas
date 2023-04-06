@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface PagamentoRepository extends JpaRepository<Pagamento, Integer> {
 
-    List<Pagamento> findByFatura(Fatura fatura);
+    List<Pagamento> findByFaturaOrderByDataPagamentoDesc(Fatura fatura);
 
     @Query(
-            value = "SELECT P FROM Pagamento P WHERE YEAR(P.dataPagamento) = :ano AND MONTH(P.dataPagamento) = :mes AND P.fatura is null"
+            value = "SELECT P FROM Pagamento P WHERE YEAR(P.dataPagamento) = :ano AND MONTH(P.dataPagamento) = :mes AND P.fatura is null ORDER BY dataPagamento DESC"
     )
     List<Pagamento> findByAnoAndMesAndFaturaIsNull(Integer ano, Integer mes);
 }

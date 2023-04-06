@@ -5,6 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,11 +48,11 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
 
     @Override
     public List<CategoriaGasto> buscarCategoriaPorDescricao(String descricao) {
-        return repository.findByDescricaoContainsIgnoreCase(descricao);
+        return repository.findByDescricaoContainsIgnoreCaseOrderByDescricao(descricao);
     }
 
     @Override
     public List<CategoriaGasto> buscarTodos() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "descricao"));
     }
 }

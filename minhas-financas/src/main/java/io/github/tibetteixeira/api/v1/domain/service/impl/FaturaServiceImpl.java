@@ -47,7 +47,7 @@ public class FaturaServiceImpl implements FaturaService {
 
     @Override
     public List<Fatura> buscarFaturaPorCartao(Integer cartaoId) {
-        List<Fatura> faturas = repository.findByCartao(new Cartao(cartaoId));
+        List<Fatura> faturas = repository.findByCartaoOrderByDataVencimentoDesc(new Cartao(cartaoId));
 
         if (listaNaoValida(faturas))
             throw new FaturaException("Não existe fatura para esse cartão.");
