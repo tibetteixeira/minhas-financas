@@ -29,7 +29,14 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
 
     @Override
     public void remover(Integer id) {
-        repository.delete(buscarPorId(id));
+        try {
+            repository.delete(buscarPorId(id));
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("ConstraintViolationException"))
+                throw new GastoException("Não é possível remover uma categoria utilizada.");
+            throw e;
+        }
+
     }
 
     @Override
