@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
+import io.github.tibetteixeira.api.v1.domain.model.DataAuditoria;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class UsuarioDTO {
                 .sobrenome(sobrenome)
                 .email(email)
                 .senha(senha)
+                .dataAuditoria(new DataAuditoria())
                 .build();
 
     }

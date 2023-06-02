@@ -1,7 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
+import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
 import lombok.*;
 
@@ -20,8 +20,7 @@ public class RecebimentoDTO {
     private BigDecimal valor;
     private String descricao;
     private TipoRecebimento tipoRecebimento;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private UsuarioDTO usuario;
+    private Integer usuarioId;
 
     public Recebimento toModel() {
         return Recebimento.builder()
@@ -30,7 +29,7 @@ public class RecebimentoDTO {
                 .valor(valor)
                 .descricao(descricao)
                 .tipoRecebimento(tipoRecebimento)
-                .usuario(usuario.toModel())
+                .usuario(new Usuario(usuarioId))
                 .build();
     }
 }

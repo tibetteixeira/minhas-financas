@@ -1,6 +1,5 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.util.NumericUtils;
@@ -26,7 +25,6 @@ public class CaixaEconomiaDTO {
     private BigDecimal valorEconomizado;
     private Integer prazo;
     private Date dataCriacao;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer usuarioId;
     private List<ItemCaixaEconomiaDTO> itens = new ArrayList<>();
 

@@ -47,7 +47,7 @@ public class Recebimento {
                 .valor(valor)
                 .descricao(descricao)
                 .tipoRecebimento(tipoRecebimento)
-                .usuario(usuario.toDTO())
+                .usuarioId(usuario.getId())
                 .build();
     }
 }

@@ -1,7 +1,9 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
+import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
+import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,10 +21,9 @@ public class GastoDTO {
     private Date dataGasto;
     private BigDecimal valor;
     private String descricao;
-    private CategoriaGastoDTO categoria;
-    private FaturaDTO fatura;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private UsuarioDTO usuario;
+    private Integer categoriaId;
+    private Integer faturaId;
+    private Integer usuarioId;
 
     public Gasto toModel() {
         return Gasto.builder()
@@ -30,9 +31,9 @@ public class GastoDTO {
                 .dataGasto(dataGasto)
                 .valor(valor)
                 .descricao(descricao)
-                .categoria(categoria.toModel())
-                .usuario(usuario.toModel())
-                .fatura(Objects.nonNull(fatura) ? fatura.toModel() : null)
+                .categoria(new CategoriaGasto(categoriaId))
+                .usuario(new Usuario(usuarioId))
+                .fatura(Objects.nonNull(faturaId) ? new Fatura(faturaId) : null)
                 .build();
     }
 }

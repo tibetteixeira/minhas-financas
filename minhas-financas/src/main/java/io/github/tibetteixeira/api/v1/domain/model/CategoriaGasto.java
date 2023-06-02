@@ -30,6 +30,10 @@ public class CategoriaGasto {
     @OneToMany(mappedBy = "categoria")
     private List<Gasto> gastos = new ArrayList<>();
 
+    public CategoriaGasto(Integer id) {
+        this.id = id;
+    }
+
     public CategoriaGastoDTO toDTO() {
         return CategoriaGastoDTO.builder()
                 .id(id)

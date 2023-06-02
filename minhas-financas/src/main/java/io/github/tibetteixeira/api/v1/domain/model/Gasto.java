@@ -52,9 +52,9 @@ public class Gasto {
                 .dataGasto(dataGasto)
                 .valor(valor)
                 .descricao(descricao)
-                .categoria(categoria.toDTO())
-                .usuario(usuario.toDTO())
-                .fatura(Objects.nonNull(fatura) ? fatura.toDTO() : null)
+                .categoriaId(categoria.getId())
+                .usuarioId(usuario.getId())
+                .faturaId(Objects.nonNull(fatura) ? fatura.getId() : null)
                 .build();
     }
 }

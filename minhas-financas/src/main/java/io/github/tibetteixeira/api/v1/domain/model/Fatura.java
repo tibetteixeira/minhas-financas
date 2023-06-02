@@ -58,7 +58,7 @@ public class Fatura {
                 .dataVencimento(dataVencimento)
                 .status(status)
                 .valorPago(valorPago)
-                .cartao(cartao.toDTO())
+                .cartaoId(cartao.getId())
                 .mes(mes)
                 .ano(ano)
                 .build();

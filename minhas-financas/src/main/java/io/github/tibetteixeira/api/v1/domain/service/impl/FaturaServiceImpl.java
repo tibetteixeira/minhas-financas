@@ -62,7 +62,7 @@ public class FaturaServiceImpl implements FaturaService {
 
     @Override
     public Fatura buscaOuSalva(Fatura fatura) {
-        Fatura faturaDaBase = buscarFaturaDoCartaoPorMesAno(fatura);
+        Fatura faturaDaBase = buscarPorId(fatura.getId());
         return Objects.isNull(faturaDaBase) ? repository.saveAndFlush(fatura) : faturaDaBase;
 
     }

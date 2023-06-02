@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
+import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
@@ -20,7 +21,7 @@ public class FaturaDTO {
     private Date dataVencimento;
     private StatusPagamentoFatura status;
     private BigDecimal valorPago;
-    private CartaoDTO cartao;
+    private Integer cartaoId;
     private Mes mes;
     private Integer ano;
     private List<GastoDTO> gastos;
@@ -31,7 +32,7 @@ public class FaturaDTO {
                 .dataVencimento(dataVencimento)
                 .status(status)
                 .valorPago(valorPago)
-                .cartao(cartao.toModel())
+                .cartao(new Cartao(cartaoId))
                 .mes(mes)
                 .ano(ano)
                 .build();
