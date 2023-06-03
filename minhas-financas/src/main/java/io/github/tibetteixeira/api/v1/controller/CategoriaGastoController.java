@@ -1,12 +1,14 @@
 package io.github.tibetteixeira.api.v1.controller;
 
-import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ public class CategoriaGastoController {
     private CategoriaGastoService service;
 
     @PostMapping(path = Rotas.EMPTY)
+    @ResponseStatus(HttpStatus.CREATED)
     public void salvar(@RequestBody CategoriaGastoDTO gastoCategoria) {
         service.salvar(gastoCategoria.toModel());
     }
@@ -26,12 +29,13 @@ public class CategoriaGastoController {
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CategoriaGastoDTO categoria) {
         if (BooleanUtils.isFalse(id.equals(categoria.getId())))
-            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
 
         service.atualizar(id, categoria.toModel());
     }
 
     @DeleteMapping(path = Rotas.ID)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Integer id) {
         service.remover(id);
     }

@@ -1,13 +1,15 @@
 package io.github.tibetteixeira.api.v1.controller;
 
-import io.github.tibetteixeira.api.v1.domain.exception.MinhasFinancasException;
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ public class CaixaEconomiaController {
     private CaixaEconomiaService service;
 
     @PostMapping(path = Rotas.EMPTY)
+    @ResponseStatus(HttpStatus.CREATED)
     public void salvar(@RequestBody CaixaEconomiaDTO caixaEconomia) {
         service.salvar(caixaEconomia.toModel());
     }
@@ -27,12 +30,13 @@ public class CaixaEconomiaController {
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CaixaEconomiaDTO caixaEconomia) {
         if (BooleanUtils.isFalse(id.equals(caixaEconomia.getId())))
-            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
 
         service.atualizar(id, caixaEconomia.toModel());
     }
 
     @DeleteMapping(path = Rotas.ID)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Integer id) {
         service.remover(id);
     }
@@ -57,6 +61,7 @@ public class CaixaEconomiaController {
     }
 
     @PostMapping(path = Rotas.ITEM_CAIXA_ECONOMIA)
+    @ResponseStatus(HttpStatus.CREATED)
     public void salvarItem(@RequestBody ItemCaixaEconomiaDTO itemCaixaEconomiaDTO) {
         service.salvar(itemCaixaEconomiaDTO.toModel());
     }
@@ -64,7 +69,7 @@ public class CaixaEconomiaController {
     @PutMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
     public void atualizarItem(@PathVariable Integer id, @RequestBody ItemCaixaEconomiaDTO item) {
         if (BooleanUtils.isFalse(id.equals(item.getId())))
-            throw new MinhasFinancasException("O id da rota é diferente do id do objeto");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
 
         service.atualizar(id, item.toModel());
     }
@@ -75,6 +80,7 @@ public class CaixaEconomiaController {
     }
 
     @DeleteMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removerItem(@PathVariable Integer id) {
         service.removerItem(id);
     }
