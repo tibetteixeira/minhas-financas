@@ -2,6 +2,10 @@ package io.github.tibetteixeira.api.v1.controller;
 
 public class Rotas {
 
+    private Rotas() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final String EMPTY = "";
     public static final String ID = "/{id}";
 
