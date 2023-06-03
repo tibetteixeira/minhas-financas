@@ -1,18 +1,19 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.CartaoException;
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.CartaoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
-import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
 @AllArgsConstructor
@@ -29,9 +30,6 @@ public class CartaoServiceImpl implements CartaoService {
 
     @Override
     public void atualizar(Integer id, Cartao cartao) {
-        if (isFalse(id.equals(cartao.getId())))
-            throw new CartaoException("Id do cartão diferente do id da Url.");
-
         buscarPorId(id);
 
         repository.save(cartao);
@@ -46,7 +44,7 @@ public class CartaoServiceImpl implements CartaoService {
     @Override
     public Cartao buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new CartaoException("Cartão não encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.CARTAO_NAO_ENCONTRADO));
     }
 
     @Override
@@ -56,7 +54,7 @@ public class CartaoServiceImpl implements CartaoService {
         List<Cartao> cartoes = repository.findCartaoByUsuarioOrderById(usuarioDaBase);
 
         if (listaNaoValida(cartoes))
-            throw new CartaoException("Este usuário não possui cartão cadastrado.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_POSSUI_CARTAO_CADASTRADO);
 
         return cartoes;
     }
@@ -66,7 +64,7 @@ public class CartaoServiceImpl implements CartaoService {
         List<Cartao> cartoes = repository.findByNomeContainsIgnoreCaseOrderById(nomeCartao);
 
         if (listaNaoValida(cartoes))
-            throw new CartaoException("Não existe cartão com esse nome.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.NAO_EXISTE_CARTAO_COM_ESSE_NOME);
 
         return cartoes;
     }

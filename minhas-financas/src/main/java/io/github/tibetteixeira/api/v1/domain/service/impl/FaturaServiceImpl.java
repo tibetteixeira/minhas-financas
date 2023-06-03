@@ -1,12 +1,15 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.exception.FaturaException;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.repository.FaturaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +31,7 @@ public class FaturaServiceImpl implements FaturaService {
     @Override
     public void atualizar(Integer id, Fatura fatura) {
         if (isFalse(id.equals(fatura.getId())))
-            throw new FaturaException("Id da fatura diferente do id da Url.");
+            throw new FaturaException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
 
         buscarPorId(id);
 
@@ -37,12 +40,13 @@ public class FaturaServiceImpl implements FaturaService {
 
     @Override
     public void remover(Integer id) {
+        // Não terá remoção de fatura
     }
 
     @Override
     public Fatura buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new FaturaException("Fatura não encontrada."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.FATURA_NAO_ENCONTRADA));
     }
 
     @Override
@@ -50,7 +54,7 @@ public class FaturaServiceImpl implements FaturaService {
         List<Fatura> faturas = repository.findByCartaoOrderByDataVencimentoDesc(new Cartao(cartaoId));
 
         if (listaNaoValida(faturas))
-            throw new FaturaException("Não existe fatura para esse cartão.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.NAO_EXISTE_FATURA_PARA_ESSE_CARTAO);
 
         return faturas;
     }

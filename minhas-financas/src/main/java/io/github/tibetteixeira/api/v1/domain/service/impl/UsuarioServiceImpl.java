@@ -1,18 +1,19 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.UsuarioException;
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
 @AllArgsConstructor
@@ -31,9 +32,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void atualizar(Integer id, Usuario usuario) {
-        if (isFalse(id.equals(usuario.getId())))
-            throw new UsuarioException("Id do usuário diferente do id da Url!");
-
         Usuario usuarioDaBase = buscarPorId(id);
 
         usuario.setSenha(encoder.encode(usuario.getSenha()));
@@ -56,7 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findById(id).orElse(null);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new UsuarioException(String.format("Usuário com id %d não foi encontrado.", id));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
@@ -66,19 +64,18 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findByEmail(email);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new UsuarioException("Usuário não foi encontrado.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
 
     @Override
     public Usuario buscarPorEmailESenha(String email, String senha) {
-
         Usuario usuario = buscarPorEmail(email);
 
         if (encoder.matches(senha, usuario.getSenha()))
             return usuario;
 
-        throw new UsuarioException("Usuário não foi encontrado.");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
     }
 }

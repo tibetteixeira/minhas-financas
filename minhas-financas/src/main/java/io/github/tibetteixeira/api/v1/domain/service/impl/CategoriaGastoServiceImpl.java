@@ -1,12 +1,15 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
+import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.exception.GastoException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
             repository.delete(buscarPorId(id));
         } catch (RuntimeException e) {
             if (e.getMessage().contains("ConstraintViolationException"))
-                throw new GastoException("Não é possível remover uma categoria utilizada.");
+                throw new GastoException(ExceptionMessage.NAO_E_POSSIVEL_REMOVER_UMA_CATEGORIA_UTILIZADA);
             throw e;
         }
 
@@ -43,7 +46,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     @Override
     public CategoriaGasto buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new GastoException("Categoria não encontrada."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.CATEGORIA_GASTO_NAO_ENCONTRADA));
     }
 
     @Override
