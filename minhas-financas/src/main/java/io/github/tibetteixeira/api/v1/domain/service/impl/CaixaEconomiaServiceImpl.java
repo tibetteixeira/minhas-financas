@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.ItemCaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.repository.CaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.repository.ItemCaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
 
-    private CaixaEconomiaRepository repository;
-    private ItemCaixaEconomiaRepository itemCaixaEconomiaRepository;
+    private final CaixaEconomiaRepository repository;
+    private final ItemCaixaEconomiaRepository itemCaixaEconomiaRepository;
 
     @Override
     public void salvar(CaixaEconomia caixaEconomia) {

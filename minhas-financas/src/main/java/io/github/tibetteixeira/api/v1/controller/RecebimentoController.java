@@ -4,7 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.model.dto.RecebimentoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping(path = Rotas.RECEBIMENTO)
 public class RecebimentoController {
 
-    private RecebimentoService service;
+    private final RecebimentoService service;
 
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)

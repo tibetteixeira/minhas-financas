@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.repository.FaturaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,10 +18,10 @@ import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FaturaServiceImpl implements FaturaService {
 
-    private FaturaRepository repository;
+    private final FaturaRepository repository;
 
     @Override
     public void salvar(Fatura fatura) {

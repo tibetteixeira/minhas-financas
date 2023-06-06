@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.CartaoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,12 +16,12 @@ import java.util.List;
 import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartaoServiceImpl implements CartaoService {
 
-    private CartaoRepository repository;
+    private final CartaoRepository repository;
 
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @Override
     public void salvar(Cartao cartao) {

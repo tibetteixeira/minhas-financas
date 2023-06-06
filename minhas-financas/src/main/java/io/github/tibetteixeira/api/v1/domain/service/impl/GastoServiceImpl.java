@@ -10,7 +10,7 @@ import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
 import io.github.tibetteixeira.util.CollectionsUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GastoServiceImpl implements GastoService {
 
-    private GastoRepository repository;
-    private CategoriaGastoService categoriaGastoService;
-    private FaturaService faturaService;
+    private final GastoRepository repository;
+    private final CategoriaGastoService categoriaGastoService;
+    private final FaturaService faturaService;
 
     @Override
     public void salvar(Gasto gasto) {

@@ -4,7 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RecebimentoServiceImpl implements RecebimentoService {
 
-    private RecebimentoRepository repository;
+    private final RecebimentoRepository repository;
 
     @Override
     public void salvar(Recebimento recebimento) {

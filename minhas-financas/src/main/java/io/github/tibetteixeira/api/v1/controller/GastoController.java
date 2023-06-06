@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping(path = Rotas.GASTO)
 public class GastoController {
 
-    private GastoService service;
+    private final GastoService service;
 
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)

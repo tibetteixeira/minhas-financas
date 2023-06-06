@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.GastoException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CategoriaGastoServiceImpl implements CategoriaGastoService {
 
-    private CategoriaGastoRepository repository;
+    private final CategoriaGastoRepository repository;
 
     @Override
     public void salvar(CategoriaGasto categoria) {

@@ -3,7 +3,7 @@ package io.github.tibetteixeira.api.v1.controller;
 import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.dto.UsuarioDTO;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(path = Rotas.USUARIO)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    private UsuarioService service;
+    private final UsuarioService service;
 
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)

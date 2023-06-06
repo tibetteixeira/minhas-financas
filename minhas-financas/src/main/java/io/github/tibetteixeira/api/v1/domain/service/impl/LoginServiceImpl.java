@@ -4,16 +4,16 @@ import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.service.LoginService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 
-    private UsuarioService service;
+    private final UsuarioService service;
 
     @Override
     public Usuario login(String email, String senha) {

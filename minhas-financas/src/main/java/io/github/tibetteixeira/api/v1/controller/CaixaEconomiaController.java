@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = Rotas.CAIXA_ECONOMIA)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CaixaEconomiaController {
 
-    private CaixaEconomiaService service;
+    private final CaixaEconomiaService service;
 
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)

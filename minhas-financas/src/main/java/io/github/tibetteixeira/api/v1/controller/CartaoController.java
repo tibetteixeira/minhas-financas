@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CartaoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = Rotas.CARTAO)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartaoController {
 
-    private CartaoService service;
+    private final CartaoService service;
 
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)

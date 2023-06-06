@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.repository.PagamentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.PagamentoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
 
-    private PagamentoRepository repository;
-    private FaturaService faturaService;
+    private final PagamentoRepository repository;
+    private final FaturaService faturaService;
 
     @Override
     public void salvar(Pagamento pagamento) {
