@@ -1,6 +1,6 @@
-package io.github.tibetteixeira.api.v1.domain.exception;
+package io.github.tibetteixeira.api.v1.exception;
 
-public class FaturaException extends RuntimeException {
+public class FaturaException extends MinhasFinancasException {
 
     public FaturaException() {
         super();

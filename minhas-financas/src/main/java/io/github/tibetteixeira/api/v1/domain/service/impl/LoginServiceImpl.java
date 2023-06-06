@@ -1,6 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.service.LoginService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;

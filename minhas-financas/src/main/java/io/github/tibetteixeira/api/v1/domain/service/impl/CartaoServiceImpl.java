@@ -1,15 +1,14 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.CartaoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class CartaoServiceImpl implements CartaoService {
     @Override
     public Cartao buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.CARTAO_NAO_ENCONTRADO));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.CARTAO_NAO_ENCONTRADO));
     }
 
     @Override
@@ -54,7 +53,7 @@ public class CartaoServiceImpl implements CartaoService {
         List<Cartao> cartoes = repository.findCartaoByUsuarioOrderById(usuarioDaBase);
 
         if (listaNaoValida(cartoes))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_POSSUI_CARTAO_CADASTRADO);
+            throw new NotFoundException(ExceptionMessage.USUARIO_NAO_POSSUI_CARTAO_CADASTRADO);
 
         return cartoes;
     }
@@ -64,7 +63,7 @@ public class CartaoServiceImpl implements CartaoService {
         List<Cartao> cartoes = repository.findByNomeContainsIgnoreCaseOrderById(nomeCartao);
 
         if (listaNaoValida(cartoes))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.NAO_EXISTE_CARTAO_COM_ESSE_NOME);
+            throw new NotFoundException(ExceptionMessage.NAO_EXISTE_CARTAO_COM_ESSE_NOME);
 
         return cartoes;
     }

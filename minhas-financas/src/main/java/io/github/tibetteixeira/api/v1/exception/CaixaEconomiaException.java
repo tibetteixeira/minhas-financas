@@ -1,6 +1,6 @@
-package io.github.tibetteixeira.api.v1.domain.exception;
+package io.github.tibetteixeira.api.v1.exception;
 
-public class CaixaEconomiaException extends RuntimeException {
+public class CaixaEconomiaException extends MinhasFinancasException {
 
     public CaixaEconomiaException() {
         super();

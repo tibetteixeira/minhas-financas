@@ -1,14 +1,14 @@
 package io.github.tibetteixeira.api.v1.controller;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.model.dto.RecebimentoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
+import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class RecebimentoController {
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody RecebimentoDTO recebimento) {
         if (BooleanUtils.isFalse(id.equals(recebimento.getId())))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
+            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
 
         service.atualizar(id, recebimento.toModel());
     }

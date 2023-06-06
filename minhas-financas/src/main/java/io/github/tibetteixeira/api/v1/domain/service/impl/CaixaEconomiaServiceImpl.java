@@ -1,6 +1,7 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.ItemCaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.repository.CaixaEconomiaRepository;
@@ -9,9 +10,7 @@ import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -51,7 +50,7 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
     @Override
     public CaixaEconomia buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.CAIXINHA_ECONOMIA_NAO_ENCONTRADA));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.CAIXINHA_ECONOMIA_NAO_ENCONTRADA));
     }
 
     @Override
@@ -84,7 +83,7 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
     @Override
     public ItemCaixaEconomia buscarItemPorId(Integer id) {
         return itemCaixaEconomiaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.ITEM_CAIXINHA_ECONOMIA_NAO_ENCONTRADO));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.ITEM_CAIXINHA_ECONOMIA_NAO_ENCONTRADO));
     }
 
     @Override

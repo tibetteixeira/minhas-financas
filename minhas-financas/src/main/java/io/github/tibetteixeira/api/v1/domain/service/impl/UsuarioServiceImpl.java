@@ -1,14 +1,13 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
@@ -54,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findById(id).orElse(null);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
+            throw new NotFoundException(ExceptionMessage.USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
@@ -64,7 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findByEmail(email);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
+            throw new NotFoundException(ExceptionMessage.USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
@@ -76,6 +75,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (encoder.matches(senha, usuario.getSenha()))
             return usuario;
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.USUARIO_NAO_ENCONTRADO);
+        throw new NotFoundException(ExceptionMessage.USUARIO_NAO_ENCONTRADO);
     }
 }

@@ -1,15 +1,14 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
-import io.github.tibetteixeira.api.v1.domain.exception.GastoException;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.GastoException;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     @Override
     public CategoriaGasto buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.CATEGORIA_GASTO_NAO_ENCONTRADA));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.CATEGORIA_GASTO_NAO_ENCONTRADA));
     }
 
     @Override

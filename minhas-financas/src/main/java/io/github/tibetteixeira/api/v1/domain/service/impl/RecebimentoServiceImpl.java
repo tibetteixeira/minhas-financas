@@ -1,14 +1,13 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class RecebimentoServiceImpl implements RecebimentoService {
     @Override
     public Recebimento buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.RECEBIMENTO_NAO_ENCONTRADO));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.RECEBIMENTO_NAO_ENCONTRADO));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
@@ -9,12 +8,12 @@ import io.github.tibetteixeira.api.v1.domain.repository.GastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
+import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
+import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import io.github.tibetteixeira.util.CollectionsUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +62,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     public Gasto buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.GASTO_NAO_ENCONTRADO));
+                .orElseThrow(() -> new NotFoundException(ExceptionMessage.GASTO_NAO_ENCONTRADO));
     }
 
     @Override
@@ -74,7 +73,7 @@ public class GastoServiceImpl implements GastoService {
         if (CollectionsUtils.listaValida(gastos))
             return gastos;
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_CATEGORIA);
+        throw new NotFoundException(ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_CATEGORIA);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class GastoServiceImpl implements GastoService {
         if (CollectionsUtils.listaValida(gastos))
             return gastos;
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_FATURA);
+        throw new NotFoundException(ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_FATURA);
     }
 
     @Override

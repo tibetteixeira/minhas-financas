@@ -1,6 +1,6 @@
-package io.github.tibetteixeira.api.v1.domain.exception;
+package io.github.tibetteixeira.api.v1.exception;
 
-public class GastoException extends RuntimeException {
+public class GastoException extends MinhasFinancasException {
 
     public GastoException() {
         super();
