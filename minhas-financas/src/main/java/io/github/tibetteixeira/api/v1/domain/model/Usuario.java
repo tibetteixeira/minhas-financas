@@ -68,7 +68,6 @@ public class Usuario {
                 .nome(nome)
                 .sobrenome(sobrenome)
                 .email(email)
-                .senha(senha)
                 .build();
     }
 }
