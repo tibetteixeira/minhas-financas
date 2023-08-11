@@ -1,21 +1,35 @@
 package io.github.tibetteixeira.config;
 
+import io.github.tibetteixeira.api.v1.domain.service.security.jwt.JwtAuthFilter;
+import io.github.tibetteixeira.api.v1.domain.service.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    private final JwtService jwtService;
+
+    @Bean
+    public OncePerRequestFilter jwtFilter() {
+        return new JwtAuthFilter(jwtService, userDetailsService);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,11 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/api/v1/docs").permitAll()
-                    .antMatchers(HttpMethod.POST, "/api/v1/usuario").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/v1/usuario/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .csrf().disable() // não desabilitar em ambiente de produção
-                    .httpBasic();
+//                    .httpBasic() // Utiliza sessões para gerenciar as requests do usuário
+                    .sessionManagement() // nesse caso estamos setando para não usar sessões
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
