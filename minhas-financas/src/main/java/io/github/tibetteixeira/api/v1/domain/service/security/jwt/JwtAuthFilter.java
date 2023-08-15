@@ -1,5 +1,6 @@
 package io.github.tibetteixeira.api.v1.domain.service.security.jwt;
 
+import io.github.tibetteixeira.config.SecurityConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,8 +21,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
-    private static final String AUTHORIZATION = "Authorization";
-
     private static final String BEARER = "Bearer";
 
     private static final String SPLITTER = " ";
@@ -36,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String authorization = httpServletRequest.getHeader(AUTHORIZATION);
+        String authorization = httpServletRequest.getHeader(SecurityConfig.getAuthorization());
 
         if (StringUtils.isNotBlank(authorization) && authorization.startsWith(BEARER)) {
             String token = authorization.split(SPLITTER)[1];
