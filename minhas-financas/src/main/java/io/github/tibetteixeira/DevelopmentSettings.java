@@ -1,18 +1,16 @@
 package io.github.tibetteixeira;
 
 import io.github.tibetteixeira.annotations.Development;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
-import java.util.logging.Logger;
-
 @Development
+@Slf4j
 public class DevelopmentSettings {
-
-    private static final Logger LOGGER = Logger.getLogger(DevelopmentSettings.class.getName());
 
     @Bean
     public CommandLineRunner initialize() {
-        return args -> LOGGER.info("Aplicação em ambiente de desenvolvimento disponível.");
+        return args -> log.info("Aplicação em ambiente de desenvolvimento disponível.");
     }
 }
