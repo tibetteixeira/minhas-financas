@@ -3,9 +3,12 @@ package io.github.tibetteixeira.api.v1.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.tibetteixeira.api.v1.domain.model.dto.UsuarioDTO;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -15,7 +18,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "usuario_id_seq", strategy = GenerationType.AUTO)
@@ -58,6 +61,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     List<CaixaEconomia> caixas = new ArrayList<>();
 
+    @Transient
+    private Collection<? extends GrantedAuthority> roles = new ArrayList<>();
+
     public Usuario(Integer id) {
         this.id = id;
     }
@@ -69,5 +75,44 @@ public class Usuario {
                 .sobrenome(sobrenome)
                 .email(email)
                 .build();
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

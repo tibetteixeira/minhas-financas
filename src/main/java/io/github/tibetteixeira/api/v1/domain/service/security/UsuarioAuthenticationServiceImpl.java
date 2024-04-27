@@ -33,19 +33,23 @@ public class UsuarioAuthenticationServiceImpl implements UserDetailsService {
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
                 throw new UsernameNotFoundException(ExceptionMessage.USUARIO_NAO_ENCONTRADO);
 
-        return User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getSenha())
+        UserDetails user = User.builder()
+                .username(usuario.getUsername())
+                .password(usuario.getPassword())
                 .roles(USER)
                 .build();
+
+        usuario.setAuthorities(user.getAuthorities());
+
+        return usuario;
     }
 
     public UserDetails autenticar(Usuario usuario) {
-        UserDetails userDetails = loadUserByUsername(usuario.getEmail());
-        boolean senhasIguais = encoder.matches(usuario.getSenha(), userDetails.getPassword());
+        Usuario usuarioLogado = (Usuario) loadUserByUsername(usuario.getEmail());
+        boolean senhasIguais = encoder.matches(usuario.getSenha(), usuarioLogado.getPassword());
 
         if (senhasIguais)
-            return userDetails;
+            return usuarioLogado;
 
         throw new SenhaInvalidaException(SENHA_INCORRETA);
 
