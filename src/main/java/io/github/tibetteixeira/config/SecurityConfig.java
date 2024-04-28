@@ -29,10 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST = {
             "/v2/api-docs",
+            "/v3/api-docs",
             "/configuration/ui",
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui/**",
+            "/swagger-ui/index.html",
             "/swagger-ui.html",
             "/webjars/**"
     };
@@ -60,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers(AUTH_WHITELIST).permitAll()
-                    .antMatchers("/api/v1/docs").permitAll()
+                    .antMatchers("/docs").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/v1/usuario/**").permitAll()
                     .anyRequest().authenticated()
                 .and()

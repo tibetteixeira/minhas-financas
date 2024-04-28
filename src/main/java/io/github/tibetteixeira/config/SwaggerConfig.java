@@ -3,6 +3,8 @@ package io.github.tibetteixeira.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,7 +20,7 @@ import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
 
     private static final String HEADER = "header";
     private static final String JWT = "JWT";
@@ -46,7 +48,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public Docket docket() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
@@ -56,6 +58,11 @@ public class SwaggerConfig {
                 .securityContexts(singletonList(securityContext()))
                 .securitySchemes(singletonList(apiKey()))
                 .apiInfo(apiInfo());
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/docs", "/swagger-ui/index.html");
     }
 
     private ApiInfo apiInfo() {
