@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
 import io.github.tibetteixeira.util.NumericUtils;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;

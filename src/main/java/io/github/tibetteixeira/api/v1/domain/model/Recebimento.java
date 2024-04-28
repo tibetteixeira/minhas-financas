@@ -4,7 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.RecebimentoDTO;
 import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

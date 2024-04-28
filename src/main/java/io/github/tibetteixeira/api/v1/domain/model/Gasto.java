@@ -4,7 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

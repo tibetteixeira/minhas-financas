@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
