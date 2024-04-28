@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "usuario")
-public class Usuario implements UserDetails {
+public class Usuario implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(generator = "usuario_id_seq", strategy = GenerationType.AUTO)
@@ -43,23 +44,23 @@ public class Usuario implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    List<Cartao> cartoes = new ArrayList<>();
+    private List<Cartao> cartoes = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    List<Pagamento> pagamentos = new ArrayList<>();
+    private List<Pagamento> pagamentos = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    List<Gasto> gastos = new ArrayList<>();
+    private List<Gasto> gastos = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    List<Recebimento> recebimentos = new ArrayList<>();
+    private List<Recebimento> recebimentos = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    List<CaixaEconomia> caixas = new ArrayList<>();
+    private List<CaixaEconomia> caixas = new ArrayList<>();
 
     @Transient
     private Collection<? extends GrantedAuthority> roles = new ArrayList<>();

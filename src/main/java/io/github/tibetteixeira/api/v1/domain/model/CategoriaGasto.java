@@ -5,6 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "categoria_gasto")
-public class CategoriaGasto {
+public class CategoriaGasto implements Serializable {
 
     @Id
     @GeneratedValue(generator = "categoria_gasto_id_seq", strategy = GenerationType.AUTO)

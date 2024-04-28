@@ -7,6 +7,7 @@ import io.github.tibetteixeira.util.NumericUtils;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Entity
 @Builder
 @Table(name = "caixa_economia")
-public class CaixaEconomia {
+public class CaixaEconomia implements Serializable {
 
     @Id
     @GeneratedValue(generator = "caixa_economia_id_seq", strategy = GenerationType.AUTO)

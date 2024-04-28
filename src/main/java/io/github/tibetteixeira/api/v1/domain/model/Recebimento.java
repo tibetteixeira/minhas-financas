@@ -5,6 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
 @Entity
 @Builder
 @Table(name = "recebimento")
-public class Recebimento {
+public class Recebimento implements Serializable {
 
     @Id
     @GeneratedValue(generator = "recebimento_id_seq", strategy = GenerationType.AUTO)

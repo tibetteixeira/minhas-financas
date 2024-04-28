@@ -5,6 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Builder
 @Table(name = "item_caixa_economia")
-public class ItemCaixaEconomia {
+public class ItemCaixaEconomia implements Serializable {
 
     @Id
     @GeneratedValue(generator = "item_caixa_economia_id_seq", strategy = GenerationType.AUTO)

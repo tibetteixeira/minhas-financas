@@ -6,6 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "fatura")
-public class Fatura {
+public class Fatura implements Serializable {
 
     @Id
     @GeneratedValue(generator = "fatura_id_seq", strategy = GenerationType.AUTO)

@@ -7,12 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Embeddable
-public class DataAuditoria {
+public class DataAuditoria implements Serializable {
 
     @Column(name = "data_criacao")
     @Temporal(TemporalType.TIMESTAMP)

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Builder
 @Table(name = "gasto")
-public class Gasto {
+public class Gasto implements Serializable {
 
     @Id
     @GeneratedValue(generator = "fatura_id_seq", strategy = GenerationType.AUTO)
