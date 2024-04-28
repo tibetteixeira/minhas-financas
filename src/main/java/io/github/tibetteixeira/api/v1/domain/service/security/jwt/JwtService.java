@@ -5,9 +5,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -28,16 +31,17 @@ public class JwtService {
         Date data = Date.from(dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant());
 
         return Jwts.builder()
-                .setSubject(usuario.getEmail())
-                .setExpiration(data)
-                .signWith(SignatureAlgorithm.HS512, this.chaveAssinatura)
+                .subject(usuario.getEmail())
+                .expiration(data)
+                .signWith(getChaveAssinatura(), SignatureAlgorithm.HS384)
                 .compact();
     }
 
     public Claims obterClaims(String token) throws ExpiredJwtException {
         return Jwts.parser()
-                .setSigningKey(this.chaveAssinatura)
-                .parseClaimsJws(token)
+                .setSigningKey(getChaveAssinatura())
+                .build()
+                .parseSignedClaims(token)
                 .getBody();
     }
 
@@ -57,4 +61,8 @@ public class JwtService {
         return obterClaims(token).getSubject();
     }
 
+    private Key getChaveAssinatura() {
+        byte[] keyBytes = Decoders.BASE64.decode(this.chaveAssinatura);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 }
