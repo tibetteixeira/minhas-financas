@@ -1,6 +1,7 @@
-package io.github.tibetteixeira.config;
+package io.github.tibetteixeira.configuration.security.config;
 
-import io.github.tibetteixeira.api.v1.domain.service.security.jwt.JwtAuthFilter;
+import io.github.tibetteixeira.api.v1.controller.Rotas;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,8 +48,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers("/docs").permitAll()
+                        .requestMatchers(Rotas.DOCS).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/usuario/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, Rotas.AUTH.concat("/**")).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -56,8 +59,8 @@ public class SecurityConfig {
         return http.build();
     }
 
-    public static String getAuthorization() {
-        return AUTHORIZATION;
+    public static String getAuthorization(HttpServletRequest request) {
+        return request.getHeader(AUTHORIZATION);
     }
 
 }

@@ -1,7 +1,7 @@
-package io.github.tibetteixeira.api.v1.domain.service.security.jwt;
+package io.github.tibetteixeira.configuration.security.config;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.github.tibetteixeira.config.SecurityConfig;
+import io.github.tibetteixeira.configuration.security.service.JwtService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,15 +39,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filter) throws ServletException, IOException {
 
-        String authorization = request.getHeader(SecurityConfig.getAuthorization());
-
-        if (StringUtils.isNotBlank(authorization) && authorization.startsWith(BEARER))
-            validarAuthorization(authorization, request);
+        if (ehBearerRequest(request))
+            validarAuthorization(request);
 
         filter.doFilter(request, response);
     }
 
-    private void validarAuthorization(String authorization, HttpServletRequest request) {
+    private void validarAuthorization(HttpServletRequest request) {
+        String authorization = SecurityConfig.getAuthorization(request);
         String token = authorization.split(SPLITTER)[1];
         UsernamePasswordAuthenticationToken user = null;
 
@@ -65,5 +64,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         user.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         return user;
+    }
+
+    public static boolean ehBearerRequest(HttpServletRequest request) {
+        String authorization = SecurityConfig.getAuthorization(request);
+        return StringUtils.isNotBlank(authorization) && authorization.startsWith(BEARER);
     }
 }
