@@ -15,8 +15,9 @@ public class Rotas {
     public static final String CARTAO_ID = "cartao/{cartao}";
     public static final String ITEM_CAIXA_ECONOMIA = "/item";
     public static final String DATA = "/data";
-    public static final String AUTH = "/auth";
-    public static final String DOCS = "/api/v1/docs";
+    public static final String AUTH = "/api/v1/auth";
+    public static final String LOGOUT = "/logout";
+    public static final String DOCS = "/docs";
     public static final String USUARIO = "/api/v1/usuario";
     public static final String CARTAO = "/api/v1/cartao";
     public static final String FATURA = "/api/v1/fatura";
