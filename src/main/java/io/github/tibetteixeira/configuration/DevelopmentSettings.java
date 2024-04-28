@@ -1,4 +1,4 @@
-package io.github.tibetteixeira;
+package io.github.tibetteixeira.configuration;
 
 import io.github.tibetteixeira.annotations.Development;
 import lombok.extern.slf4j.Slf4j;

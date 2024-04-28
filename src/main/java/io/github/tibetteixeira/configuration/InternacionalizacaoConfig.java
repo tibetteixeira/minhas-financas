@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.config;
+package io.github.tibetteixeira.configuration;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
