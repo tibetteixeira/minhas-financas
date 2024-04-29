@@ -30,4 +30,8 @@ public class UsuarioLogado {
         Usuario usuario = recuperaUsuarioAutenticado();
         return nonNull(usuario) ? usuario.getId() : null;
     }
+
+    public static Usuario getUsuario() {
+        return recuperaUsuarioAutenticado();
+    }
 }

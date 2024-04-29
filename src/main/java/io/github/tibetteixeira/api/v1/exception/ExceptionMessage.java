@@ -24,5 +24,7 @@ public class ExceptionMessage {
     public static final String NAO_EXISTE_FATURA_PARA_ESSE_CARTAO = "Não existe fatura para esse cartão";
     public static final String NAO_HA_GASTOS_PARA_ESSA_CATEGORIA = "Não há gastos para essa categoria";
     public static final String NAO_HA_GASTOS_PARA_ESSA_FATURA = "Não há gastos para essa fatura";
+    public static final String USUARIO_LOGADO_DIFERENTE_DO_USUARIO_DA_OPERACAOO = "Usuário logado diferente do usuário da operação";
+    public static final String EMAIL_JA_CADASTRADO = "Email já cadastrado";
 
 }
