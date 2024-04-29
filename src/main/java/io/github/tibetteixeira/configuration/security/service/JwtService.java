@@ -1,24 +1,36 @@
 package io.github.tibetteixeira.configuration.security.service;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.github.tibetteixeira.configuration.security.exception.AuthenticationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import static io.github.tibetteixeira.util.SecurityUtil.*;
 import static java.lang.Long.parseLong;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class JwtService {
+
+    private final TokenService tokenService;
+    private final UserDetailsService userDetailsService;
+
+    public static final String TOKEN_INVALIDO = "Token inválido";
 
     @Value("${security.jwt.expiracao}")
     private String expiracao;
@@ -26,43 +38,49 @@ public class JwtService {
     @Value("${security.jwt.chave-assinatura}")
     private String chaveAssinatura;
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(HttpServletRequest request, Usuario usuario) {
         LocalDateTime dataHoraExpiracao = LocalDateTime.now().plusMinutes(parseLong(this.expiracao));
         Date data = Date.from(dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant());
 
-        return Jwts.builder()
+        String chave = Jwts.builder()
                 .subject(usuario.getEmail())
                 .expiration(data)
-                .signWith(getChaveAssinatura(), SignatureAlgorithm.HS384)
+                .signWith(getChaveAssinatura(this.chaveAssinatura), SignatureAlgorithm.HS384)
                 .compact();
+
+        tokenService.salvar(chave, usuario);
+        autenticarToken(request, chave);
+
+        return chave;
     }
 
-    public Claims obterClaims(String token) throws ExpiredJwtException {
-        return Jwts.parser()
-                .setSigningKey(getChaveAssinatura())
-                .build()
-                .parseSignedClaims(token)
-                .getBody();
-    }
+    public void validarToken(HttpServletRequest request) {
+        String token = obterToken(request);
 
-    public boolean tokenValido(String token) {
-        try {
-            Claims claims = obterClaims(token);
-            Date dataExpiracao = claims.getExpiration();
-            LocalDateTime dateTimeExpiracao = dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        if (isFalse(tokenService.tokenValido(token)))
+            throw new AuthenticationException(TOKEN_INVALIDO);
 
-            return dateTimeExpiracao.isAfter(LocalDateTime.now());
-        } catch (Exception e) {
-            return false;
+        if (isFalse(tokenValido(token, this.chaveAssinatura))) {
+            tokenService.inativar(token);
+            throw new AuthenticationException(TOKEN_INVALIDO);
         }
+
+        autenticarToken(request, token);
     }
 
-    public String obterLoginUsuario(String token) throws ExpiredJwtException {
-        return obterClaims(token).getSubject();
+    private void autenticarToken(HttpServletRequest request, String token) {
+        UsernamePasswordAuthenticationToken authToken = autenticarUsuario(token, request);
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        request.getSession().setAttribute(SPRING_SECURITY_SESSION, SecurityContextHolder.getContext());
     }
 
-    private Key getChaveAssinatura() {
-        byte[] keyBytes = Decoders.BASE64.decode(this.chaveAssinatura);
-        return Keys.hmacShaKeyFor(keyBytes);
+    private UsernamePasswordAuthenticationToken autenticarUsuario(String token, HttpServletRequest request) {
+        String emailUsuario = obterLoginUsuario(token, chaveAssinatura);
+        Usuario usuario = (Usuario) userDetailsService.loadUserByUsername(emailUsuario);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+        return authToken;
     }
 }

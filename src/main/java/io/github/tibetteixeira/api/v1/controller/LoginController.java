@@ -6,10 +6,10 @@ import io.github.tibetteixeira.api.v1.domain.model.dto.TokenDTO;
 import io.github.tibetteixeira.configuration.security.service.UsuarioAuthenticationServiceImpl;
 import io.github.tibetteixeira.configuration.security.service.JwtService;
 import io.github.tibetteixeira.api.v1.exception.SenhaInvalidaException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,18 +23,17 @@ public class LoginController {
 
     private final UsuarioAuthenticationServiceImpl authService;
     private final JwtService jwtService;
-    private final LogoutHandler logoutHandler;
 
     @PostMapping(path = Rotas.EMPTY)
-    public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciaisDTO) {
+    public TokenDTO autenticar(HttpServletRequest request, @RequestBody CredenciaisDTO credenciaisDTO) {
         try {
             Usuario usuario = Usuario.builder()
                     .email(credenciaisDTO.getEmail())
                     .senha(credenciaisDTO.getSenha())
                     .build();
-            authService.autenticar(usuario);
-            String token = jwtService.gerarToken(usuario);
-            return new TokenDTO(usuario.getEmail(), token);
+            Usuario usuarioAutenticado = (Usuario) authService.autenticar(usuario);
+            String token = jwtService.gerarToken(request, usuarioAutenticado);
+            return new TokenDTO(usuarioAutenticado.getEmail(), token);
         } catch (UsernameNotFoundException | SenhaInvalidaException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
