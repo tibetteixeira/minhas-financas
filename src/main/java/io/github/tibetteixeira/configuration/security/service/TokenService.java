@@ -53,4 +53,8 @@ public class TokenService {
         repository.save(token);
     }
 
+    public void inativarTodosOsTokenDoUsuario(Usuario usuario) {
+        repository.inativarTodosOsTokenDoUsuario(usuario.getId());
+    }
+
 }

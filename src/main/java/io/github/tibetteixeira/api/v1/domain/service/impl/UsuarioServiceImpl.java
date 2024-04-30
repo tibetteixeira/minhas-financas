@@ -6,9 +6,11 @@ import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorUsuario;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
+import io.github.tibetteixeira.configuration.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static io.github.tibetteixeira.api.v1.exception.ExceptionMessage.EMAIL_JA_CADASTRADO;
 import static io.github.tibetteixeira.api.v1.exception.ExceptionMessage.USUARIO_NAO_ENCONTRADO;
@@ -23,6 +25,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final PasswordEncoder encoder;
     private final ValidadorUsuario validador;
     private final Relogio relogio;
+    private final TokenService tokenService;
 
     private static final String USUARIO_EMAIL_KEY = "usuario_email_key";
 
@@ -58,6 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void remover(Integer id) {
         validador.validar(id);
         Usuario usuario = buscarPorId(id);
@@ -66,6 +70,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.getDataAuditoria().setDataExclusao(relogio.hoje());
 
         repository.save(usuario);
+        tokenService.inativarTodosOsTokenDoUsuario(usuario);
     }
 
     @Override
