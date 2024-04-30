@@ -345,7 +345,7 @@ public class UsuarioServiceImplTest {
                 () -> service.buscarPorEmailESenha("test@test.com", "123")
         );
 
-        assertThat(exception).hasMessage("Usuário não encontrado");
+        assertThat(exception).hasMessage("Usuário não encontrado. Email ou senha invalidos");
     }
 
     @Test
