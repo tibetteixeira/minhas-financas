@@ -1,9 +1,7 @@
 package io.github.tibetteixeira.api.v1.controller;
 
 import io.github.tibetteixeira.api.v1.ApiErrors;
-import io.github.tibetteixeira.api.v1.exception.MinhasFinancasException;
-import io.github.tibetteixeira.api.v1.exception.NotFoundException;
-import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
+import io.github.tibetteixeira.api.v1.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,6 +30,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(NotSameIdException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleNotSameIdException(NotSameIdException e) {
+        return new ApiErrors(e.getMessage());
+    }
+
+    @ExceptionHandler(UsuarioException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleUsuarioException(UsuarioException e) {
         return new ApiErrors(e.getMessage());
     }
 
