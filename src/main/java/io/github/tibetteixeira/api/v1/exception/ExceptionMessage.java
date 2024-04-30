@@ -26,5 +26,11 @@ public class ExceptionMessage {
     public static final String NAO_HA_GASTOS_PARA_ESSA_FATURA = "Não há gastos para essa fatura";
     public static final String USUARIO_LOGADO_DIFERENTE_DO_USUARIO_DA_OPERACAOO = "Usuário logado diferente do usuário da operação";
     public static final String EMAIL_JA_CADASTRADO = "Email já cadastrado";
+    public static final String ID_DO_USUARIO_NAO_PODE_SER_VAZIO = "Id do usuário não pode ser vazio";
+    public static final String USUARIO_NAO_PODE_SER_VAZIO = "Usuário não pode ser vazio";
+    public static final String NOME_NAO_PODE_SER_VAZIO = "Nome não pode ser vazio";
+    public static final String SOBRENOME_NAO_PODE_SER_VAZIO = "Sobrenome não pode ser vazio";
+    public static final String EMAIL_NAO_PODE_SER_VAZIO = "Email não pode ser vazio";
+    public static final String SENHA_NAO_PODE_SER_VAZIA = "Senha não pode ser vazia";
 
 }

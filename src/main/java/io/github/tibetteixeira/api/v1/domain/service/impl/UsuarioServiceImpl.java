@@ -5,7 +5,6 @@ import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorUsuario;
-import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,13 +49,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setDataAuditoria(usuarioDaBase.getDataAuditoria());
         usuario.getDataAuditoria().setDataAtualizacao(relogio.hoje());
 
-        repository.save(usuario);
+        try {
+            repository.save(usuario);
+        } catch (Exception e) {
+            if (e.getMessage().contains(USUARIO_EMAIL_KEY))
+                throw new UsuarioException(EMAIL_JA_CADASTRADO);
+        }
     }
 
     @Override
     public void remover(Integer id) {
         validador.validar(id);
         Usuario usuario = buscarPorId(id);
+        usuario.setEmail("");
+        usuario.setSenha("");
         usuario.getDataAuditoria().setDataExclusao(relogio.hoje());
 
         repository.save(usuario);
@@ -68,28 +74,31 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findById(id).orElse(null);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new NotFoundException(USUARIO_NAO_ENCONTRADO);
+            throw new UsuarioException(USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
 
     @Override
     public Usuario buscarPorEmail(String email) {
+        validador.validarEmail(email);
+
         Usuario usuario = repository.findByEmail(email);
 
         if (isNull(usuario) || nonNull(usuario.getDataAuditoria().getDataExclusao()))
-            throw new NotFoundException(USUARIO_NAO_ENCONTRADO);
+            throw new UsuarioException(USUARIO_NAO_ENCONTRADO);
 
         return usuario;
     }
 
     @Override
     public Usuario buscarPorEmailESenha(String email, String senha) {
+        validador.validarEmailSenha(email, senha);
         Usuario usuario = buscarPorEmail(email);
 
         if (encoder.matches(senha, usuario.getSenha()))
             return usuario;
 
-        throw new NotFoundException(USUARIO_NAO_ENCONTRADO);
+        throw new UsuarioException(USUARIO_NAO_ENCONTRADO);
     }
 }

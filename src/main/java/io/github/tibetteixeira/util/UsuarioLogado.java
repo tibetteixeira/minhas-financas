@@ -2,6 +2,7 @@ package io.github.tibetteixeira.util;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -9,12 +10,8 @@ import org.springframework.stereotype.Component;
 import static java.util.Objects.nonNull;
 
 @Component
-@Scope("request")
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UsuarioLogado {
-
-    private UsuarioLogado()  {
-        throw new IllegalStateException("Utility class");
-    }
 
     public static Usuario recuperaUsuarioAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -26,12 +23,12 @@ public class UsuarioLogado {
         return null;
     }
 
-    public static Integer getId() {
+    public Integer getId() {
         Usuario usuario = recuperaUsuarioAutenticado();
         return nonNull(usuario) ? usuario.getId() : null;
     }
 
-    public static Usuario getUsuario() {
+    public Usuario getUsuario() {
         return recuperaUsuarioAutenticado();
     }
 }
