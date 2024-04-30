@@ -8,18 +8,20 @@ import io.github.tibetteixeira.api.v1.domain.validator.ValidadorUsuario;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
 import io.github.tibetteixeira.configuration.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static io.github.tibetteixeira.api.v1.exception.ExceptionMessage.EMAIL_JA_CADASTRADO;
-import static io.github.tibetteixeira.api.v1.exception.ExceptionMessage.USUARIO_NAO_ENCONTRADO;
+import static io.github.tibetteixeira.api.v1.exception.ExceptionMessage.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder encoder;
@@ -98,12 +100,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario buscarPorEmailESenha(String email, String senha) {
-        validador.validarEmailSenha(email, senha);
+        validador.validarSenha(senha);
         Usuario usuario = buscarPorEmail(email);
 
         if (encoder.matches(senha, usuario.getSenha()))
             return usuario;
 
-        throw new UsuarioException(USUARIO_NAO_ENCONTRADO);
+        throw new UsuarioException(USUARIO_NAO_ENCONTRADO_EMAIL_OU_SENHA_INVALIDOS);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return buscarPorEmail(email);
     }
 }

@@ -3,7 +3,7 @@ package io.github.tibetteixeira.api.v1.controller;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CredenciaisDTO;
 import io.github.tibetteixeira.api.v1.domain.model.dto.TokenDTO;
-import io.github.tibetteixeira.configuration.security.service.UsuarioAuthenticationServiceImpl;
+import io.github.tibetteixeira.configuration.security.service.UsuarioAuthenticationService;
 import io.github.tibetteixeira.configuration.security.service.JwtService;
 import io.github.tibetteixeira.api.v1.exception.SenhaInvalidaException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final UsuarioAuthenticationServiceImpl authService;
+    private final UsuarioAuthenticationService authService;
     private final JwtService jwtService;
 
     @PostMapping(path = Rotas.EMPTY)

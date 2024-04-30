@@ -17,7 +17,7 @@ public class ExceptionMessage {
     public static final String PAGAMENTO_NAO_ENCONTRADO = "Pagamento não encontrado";
     public static final String RECEBIMENTO_NAO_ENCONTRADO = "Recebimento não encontrado";
     public static final String USUARIO_NAO_ENCONTRADO = "Usuário não encontrado";
-    public static final String SENHA_INCORRETA = "Senha incorreta";
+    public static final String USUARIO_NAO_ENCONTRADO_EMAIL_OU_SENHA_INVALIDOS = "Usuário não encontrado. Email ou senha invalidos";
     public static final String USUARIO_NAO_POSSUI_CARTAO_CADASTRADO = "Este usuário não possui cartão cadastrado";
     public static final String NAO_EXISTE_CARTAO_COM_ESSE_NOME = "Não existe cartão com esse nome";
     public static final String NAO_E_POSSIVEL_REMOVER_UMA_CATEGORIA_UTILIZADA = "Não é possível remover uma categoria utilizada";
