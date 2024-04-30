@@ -1,7 +1,5 @@
-package io.github.tibetteixeira.api.v1.controller;
+package io.github.tibetteixeira.api.v1.exception;
 
-import io.github.tibetteixeira.api.v1.ApiErrors;
-import io.github.tibetteixeira.api.v1.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

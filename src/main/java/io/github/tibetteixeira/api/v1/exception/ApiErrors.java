@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.api.v1;
+package io.github.tibetteixeira.api.v1.exception;
 
 import lombok.Getter;
 
