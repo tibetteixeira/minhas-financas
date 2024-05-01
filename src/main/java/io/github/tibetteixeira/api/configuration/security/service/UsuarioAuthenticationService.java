@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.configuration.security.service;
+package io.github.tibetteixeira.api.configuration.security.service;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;

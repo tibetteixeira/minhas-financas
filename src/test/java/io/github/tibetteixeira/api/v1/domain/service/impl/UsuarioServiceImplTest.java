@@ -7,7 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorUsuario;
 import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
-import io.github.tibetteixeira.util.UsuarioLogado;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

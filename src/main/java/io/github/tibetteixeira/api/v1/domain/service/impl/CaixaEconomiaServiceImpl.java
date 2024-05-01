@@ -7,6 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.model.ItemCaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.repository.CaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.repository.ItemCaixaEconomiaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Sort;

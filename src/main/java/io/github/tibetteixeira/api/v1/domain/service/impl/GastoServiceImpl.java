@@ -10,7 +10,7 @@ import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
 import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
-import io.github.tibetteixeira.util.CollectionsUtils;
+import io.github.tibetteixeira.api.util.CollectionsUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
-import io.github.tibetteixeira.util.NumericUtils;
+import io.github.tibetteixeira.api.util.NumericUtils;
 import lombok.*;
 
 import jakarta.persistence.*;

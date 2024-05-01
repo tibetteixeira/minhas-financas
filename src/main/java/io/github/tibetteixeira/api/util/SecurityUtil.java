@@ -1,6 +1,6 @@
-package io.github.tibetteixeira.util;
+package io.github.tibetteixeira.api.util;
 
-import io.github.tibetteixeira.configuration.security.config.SecurityConfig;
+import io.github.tibetteixeira.api.configuration.security.config.SecurityConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

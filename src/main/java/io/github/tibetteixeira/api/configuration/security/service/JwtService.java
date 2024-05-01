@@ -1,7 +1,7 @@
-package io.github.tibetteixeira.configuration.security.service;
+package io.github.tibetteixeira.api.configuration.security.service;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.github.tibetteixeira.configuration.security.exception.AuthenticationException;
+import io.github.tibetteixeira.api.configuration.security.exception.AuthenticationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static io.github.tibetteixeira.util.SecurityUtil.*;
+import static io.github.tibetteixeira.api.util.SecurityUtil.*;
 import static java.lang.Long.parseLong;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 

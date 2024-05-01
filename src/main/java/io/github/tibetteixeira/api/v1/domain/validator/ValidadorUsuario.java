@@ -4,7 +4,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
-import io.github.tibetteixeira.util.UsuarioLogado;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;

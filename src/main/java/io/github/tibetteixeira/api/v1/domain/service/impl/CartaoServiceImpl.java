@@ -6,13 +6,13 @@ import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.repository.CartaoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
-import io.github.tibetteixeira.util.UsuarioLogado;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
+import static io.github.tibetteixeira.api.util.CollectionsUtils.listaNaoValida;
 
 @Service
 @RequiredArgsConstructor

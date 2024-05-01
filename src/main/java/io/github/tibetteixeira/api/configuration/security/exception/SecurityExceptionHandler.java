@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.configuration.security.exception;
+package io.github.tibetteixeira.api.configuration.security.exception;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;

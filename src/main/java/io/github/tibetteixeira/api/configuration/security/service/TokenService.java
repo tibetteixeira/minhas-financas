@@ -1,9 +1,9 @@
-package io.github.tibetteixeira.configuration.security.service;
+package io.github.tibetteixeira.api.configuration.security.service;
 
+import io.github.tibetteixeira.api.configuration.security.repository.TokenRepository;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.github.tibetteixeira.configuration.security.model.TipoToken;
-import io.github.tibetteixeira.configuration.security.model.Token;
-import io.github.tibetteixeira.configuration.security.repository.TokenRepository;
+import io.github.tibetteixeira.api.configuration.security.model.TipoToken;
+import io.github.tibetteixeira.api.configuration.security.model.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

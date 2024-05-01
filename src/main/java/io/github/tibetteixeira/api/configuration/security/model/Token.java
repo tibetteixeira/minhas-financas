@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.configuration.security.model;
+package io.github.tibetteixeira.api.configuration.security.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import jakarta.persistence.*;

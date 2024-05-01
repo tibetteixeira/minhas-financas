@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.configuration.security.exception;
+package io.github.tibetteixeira.api.configuration.security.exception;
 
 public class AuthenticationException extends RuntimeException {
 

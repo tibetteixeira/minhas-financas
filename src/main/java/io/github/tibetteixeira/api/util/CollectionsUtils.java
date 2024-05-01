@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.util;
+package io.github.tibetteixeira.api.util;
 
 import java.util.List;
 

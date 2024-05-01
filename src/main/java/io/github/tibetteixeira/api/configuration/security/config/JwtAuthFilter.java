@@ -1,8 +1,8 @@
-package io.github.tibetteixeira.configuration.security.config;
+package io.github.tibetteixeira.api.configuration.security.config;
 
-import io.github.tibetteixeira.configuration.security.exception.AuthenticationException;
-import io.github.tibetteixeira.configuration.security.exception.SecurityExceptionHandler;
-import io.github.tibetteixeira.configuration.security.service.JwtService;
+import io.github.tibetteixeira.api.configuration.security.exception.AuthenticationException;
+import io.github.tibetteixeira.api.configuration.security.exception.SecurityExceptionHandler;
+import io.github.tibetteixeira.api.configuration.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static io.github.tibetteixeira.util.SecurityUtil.ehBearerRequest;
+import static io.github.tibetteixeira.api.util.SecurityUtil.ehBearerRequest;
 
 
 @Component

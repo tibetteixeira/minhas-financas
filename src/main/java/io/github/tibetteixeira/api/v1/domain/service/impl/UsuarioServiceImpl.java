@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.repository.UsuarioRepository;
 import io.github.tibetteixeira.api.v1.domain.service.UsuarioService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorUsuario;
 import io.github.tibetteixeira.api.v1.exception.UsuarioException;
-import io.github.tibetteixeira.configuration.security.service.TokenService;
+import io.github.tibetteixeira.api.configuration.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

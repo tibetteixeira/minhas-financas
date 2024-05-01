@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.configuration.security.config;
+package io.github.tibetteixeira.api.configuration.security.config;
 
 import io.github.tibetteixeira.api.v1.controller.Rotas;
 import jakarta.servlet.http.HttpServletRequest;

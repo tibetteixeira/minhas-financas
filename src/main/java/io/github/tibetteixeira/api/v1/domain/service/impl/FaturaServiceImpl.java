@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.tibetteixeira.util.CollectionsUtils.listaNaoValida;
+import static io.github.tibetteixeira.api.util.CollectionsUtils.listaNaoValida;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service

@@ -1,4 +1,4 @@
-package io.github.tibetteixeira.util;
+package io.github.tibetteixeira.api.util;
 
 import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import org.springframework.stereotype.Component;

@@ -7,7 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.validator.ValidadorCartao;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
 import io.github.tibetteixeira.api.v1.exception.CartaoException;
-import io.github.tibetteixeira.util.UsuarioLogado;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

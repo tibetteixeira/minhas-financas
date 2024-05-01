@@ -2,7 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.github.tibetteixeira.util.NumericUtils;
+import io.github.tibetteixeira.api.util.NumericUtils;
 import lombok.*;
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
-package io.github.tibetteixeira.configuration.security.repository;
+package io.github.tibetteixeira.api.configuration.security.repository;
 
-import io.github.tibetteixeira.configuration.security.model.Token;
+import io.github.tibetteixeira.api.configuration.security.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
