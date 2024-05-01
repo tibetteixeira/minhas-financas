@@ -18,12 +18,12 @@ public interface TokenRepository extends JpaRepository<Token, String> {
       """)
     List<Token> findAllValidTokenByUser(Integer usuarioId);
 
+    @Query(value = "select t from Token t where t.expirado = false and t.revogado = false")
+    List<Token> carregarTodosOsTokensValidos();
+
     Optional<Token> findByChave(String chave);
 
     @Modifying
-    @Query(value = """
-      update Token t set t.expirado = true, t.revogado = true\s
-      where t.usuario.id = :usuarioId
-      """)
+    @Query(value = "update Token t set t.expirado = true, t.revogado = true where t.usuario.id = :usuarioId")
     void inativarTodosOsTokenDoUsuario(@Param("usuarioId") Integer usuarioId);
 }
