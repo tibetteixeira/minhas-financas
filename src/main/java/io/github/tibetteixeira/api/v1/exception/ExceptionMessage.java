@@ -32,5 +32,10 @@ public class ExceptionMessage {
     public static final String SOBRENOME_NAO_PODE_SER_VAZIO = "Sobrenome não pode ser vazio";
     public static final String EMAIL_NAO_PODE_SER_VAZIO = "Email não pode ser vazio";
     public static final String SENHA_NAO_PODE_SER_VAZIA = "Senha não pode ser vazia";
+    public static final String ID_DO_CARTAO_NAO_PODE_SER_VAZIO = "Id do cartão não pode ser vazio";
+    public static final String CARTAO_NAO_PODE_SER_VAZIO = "Cartão não pode ser vazio";
+    public static final String ULTIMOS_QUATRO_DIGITOS_NAO_PODE_SER_VAZIO = "Os últimos quatro dígitos não pode ser vazio";
+    public static final String DIA_VENCIMENTO_NAO_PODE_SER_VAZIO = "O dia do vencimento não pode ser vazio";
+    public static final String DIA_VENCIMENTO_NAO_PODE_SER_INVALIDO = "O dia do vencimento não pode ser um valor inválido";
 
 }

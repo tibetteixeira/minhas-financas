@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CartaoService extends CrudService<Cartao, Integer> {
 
-    List<Cartao> buscarTodosOsCartoesPorUsuario(Integer usuarioId);
+    List<Cartao> buscarTodosOsCartoesPorUsuario();
 
     List<Cartao> buscarTodosOsCartoesPorNome(String nomeCartao);
 

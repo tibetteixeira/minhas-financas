@@ -12,6 +12,7 @@ public class Rotas {
     public static final String NOME = "nome/{nome}";
     public static final String DESCRICAO = "descricao/{descricao}";
     public static final String USUARIO_ID = "usuario/{usuario}";
+    public static final String USUARIO_PARAM = "usuario";
     public static final String CARTAO_ID = "cartao/{cartao}";
     public static final String ITEM_CAIXA_ECONOMIA = "/item";
     public static final String DATA = "/data";

@@ -29,9 +29,6 @@ public class CartaoController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CartaoDTO cartao) {
-        if (BooleanUtils.isFalse(id.equals(cartao.getId())))
-            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
-
         service.atualizar(id, cartao.toModel());
     }
 
@@ -53,9 +50,9 @@ public class CartaoController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = Rotas.USUARIO_ID)
-    public List<CartaoDTO> buscarPorUsuario(@PathVariable Integer usuario) {
-        return service.buscarTodosOsCartoesPorUsuario(usuario).stream()
+    @GetMapping(path = Rotas.USUARIO_PARAM)
+    public List<CartaoDTO> buscarPorUsuario() {
+        return service.buscarTodosOsCartoesPorUsuario().stream()
                 .map(Cartao::toDTO)
                 .collect(Collectors.toList());
     }
