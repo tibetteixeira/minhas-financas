@@ -3,6 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.repository.CategoriaGastoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
+import io.github.tibetteixeira.api.v1.domain.validator.ValidadorCategoriaGasto;
 import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.exception.GastoException;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CategoriaGastoServiceImpl implements CategoriaGastoService {
 
     private final CategoriaGastoRepository repository;
+    private final ValidadorCategoriaGasto validador;
 
     @Override
     public void salvar(CategoriaGasto categoria) {
@@ -44,12 +46,14 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
 
     @Override
     public CategoriaGasto buscarPorId(Integer id) {
+        validador.validar(id);
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.CATEGORIA_GASTO_NAO_ENCONTRADA));
     }
 
     @Override
     public List<CategoriaGasto> buscarCategoriaPorDescricao(String descricao) {
+        validador.validarDescricao(descricao);
         return repository.findByDescricaoContainsIgnoreCaseOrderByDescricao(descricao);
     }
 

@@ -1,12 +1,10 @@
 package io.github.tibetteixeira.api.v1.controller;
 
-import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CategoriaGastoDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
-import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
+import io.github.tibetteixeira.api.v1.exception.MinhasFinancasException;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,21 +21,21 @@ public class CategoriaGastoController {
     @PostMapping(path = Rotas.EMPTY)
     @ResponseStatus(HttpStatus.CREATED)
     public void salvar(@RequestBody CategoriaGastoDTO gastoCategoria) {
-        service.salvar(gastoCategoria.toModel());
+        throw new MinhasFinancasException("Funcionalidade em desenvolvimento");
+//        service.salvar(gastoCategoria.toModel());
     }
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CategoriaGastoDTO categoria) {
-        if (BooleanUtils.isFalse(id.equals(categoria.getId())))
-            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
-
-        service.atualizar(id, categoria.toModel());
+        throw new MinhasFinancasException("Funcionalidade em desenvolvimento");
+//        service.atualizar(id, categoria.toModel());
     }
 
     @DeleteMapping(path = Rotas.ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Integer id) {
-        service.remover(id);
+        throw new MinhasFinancasException("Funcionalidade em desenvolvimento");
+//        service.remover(id);
     }
 
     @GetMapping(path = Rotas.ID)
