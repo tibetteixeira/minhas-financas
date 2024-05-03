@@ -40,6 +40,9 @@ public class ExceptionMessage {
     public static final String FORMATO_JSON_INVALIDO = "Formato do JSON inválido";
     public static final String ID_CATEGORIA_GASTO_NAO_PODE_SER_VAZIO = "Id da categoria de gasto não pode ser vazio";
     public static final String DESCRICAO_NAO_PODE_SER_VAZIA = "Descrição não pode ser vazia";
+    public static final String ID_CAIXA_NAO_PODE_SER_VAZIO = "Id da caixinha não pode ser vazio";
+    public static final String NOME_CAIXA_NAO_PODE_SER_VAZIO = "Nome da caixinha não pode ser vazio";
+    public static final String CAIXA_NAO_PODE_SER_VAZIO = "Caixinha não pode ser vazio";
 
 
 }
