@@ -9,8 +9,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,7 +37,7 @@ public class CaixaEconomia implements Serializable {
     private String descricao;
 
     @Column(name = "valor_objetivo")
-    private BigDecimal valorObjetivo;
+    private BigDecimal valorObjetivo = BigDecimal.ZERO;
 
     @Column(name = "valor_economizado")
     private BigDecimal valorEconomizado = BigDecimal.ZERO;
@@ -47,7 +47,7 @@ public class CaixaEconomia implements Serializable {
 
     @Column(name = "data_criacao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCriacao;
+    private LocalDateTime dataCriacao;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")

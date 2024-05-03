@@ -6,8 +6,8 @@ import io.github.tibetteixeira.api.util.NumericUtils;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ public class CaixaEconomiaDTO {
     private BigDecimal valorObjetivo;
     private BigDecimal valorEconomizado;
     private Integer prazo;
-    private Date dataCriacao;
+    private LocalDateTime dataCriacao;
     private Integer usuarioId;
     private List<ItemCaixaEconomiaDTO> itens = new ArrayList<>();
 

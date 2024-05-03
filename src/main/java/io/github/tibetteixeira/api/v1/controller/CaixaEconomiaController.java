@@ -1,13 +1,9 @@
 package io.github.tibetteixeira.api.v1.controller;
 
-import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.domain.model.CaixaEconomia;
 import io.github.tibetteixeira.api.v1.domain.model.dto.CaixaEconomiaDTO;
-import io.github.tibetteixeira.api.v1.domain.model.dto.ItemCaixaEconomiaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.CaixaEconomiaService;
-import io.github.tibetteixeira.api.v1.exception.NotSameIdException;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +25,6 @@ public class CaixaEconomiaController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody CaixaEconomiaDTO caixaEconomia) {
-        if (BooleanUtils.isFalse(id.equals(caixaEconomia.getId())))
-            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
-
         service.atualizar(id, caixaEconomia.toModel());
     }
 
@@ -58,31 +51,6 @@ public class CaixaEconomiaController {
         return service.buscarTodas().stream()
                 .map(CaixaEconomia::toDTO)
                 .collect(Collectors.toList());
-    }
-
-    @PostMapping(path = Rotas.ITEM_CAIXA_ECONOMIA)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void salvarItem(@RequestBody ItemCaixaEconomiaDTO itemCaixaEconomiaDTO) {
-        service.salvar(itemCaixaEconomiaDTO.toModel());
-    }
-
-    @PutMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
-    public void atualizarItem(@PathVariable Integer id, @RequestBody ItemCaixaEconomiaDTO item) {
-        if (BooleanUtils.isFalse(id.equals(item.getId())))
-            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
-
-        service.atualizar(id, item.toModel());
-    }
-
-    @GetMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
-    public ItemCaixaEconomiaDTO buscarItemPorId(@PathVariable Integer id) {
-        return service.buscarItemPorId(id).toDTO();
-    }
-
-    @DeleteMapping(path = Rotas.ITEM_CAIXA_ECONOMIA + Rotas.ID)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removerItem(@PathVariable Integer id) {
-        service.removerItem(id);
     }
 
 }
