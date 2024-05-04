@@ -224,6 +224,26 @@ public class CaixaEconomiaServiceImplTest {
         assertThat(exception).hasMessage("Caixinha de economia não encontrada");
     }
 
+    @Test
+    public void deveriaValidarIdNuloAoValidarCaixa() {
+        Exception exception = assertThrows(CaixaEconomiaException.class,
+                () -> service.validar(null)
+        );
+
+        assertThat(exception).hasMessage("Id da caixinha não pode ser vazio");
+    }
+
+    @Test
+    public void deveriaValidarCaixaInexistenteAoValidarCaixa() {
+        when(repository.buscarPorIdEUsuario(anyInt(), anyInt())).thenReturn(empty());
+
+        Exception exception = assertThrows(NotFoundException.class,
+                () -> service.validar(1)
+        );
+
+        assertThat(exception).hasMessage("Caixinha de economia não encontrada");
+    }
+
     private CaixaEconomia dadoCaixa() {
         return CaixaEconomia.builder()
                 .id(1)
