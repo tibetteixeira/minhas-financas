@@ -7,7 +7,7 @@ import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class GastoDTO {
 
     private Integer id;
-    private Date dataGasto;
+    private LocalDateTime dataGasto;
     private BigDecimal valor;
     private String descricao;
     private Integer categoriaId;

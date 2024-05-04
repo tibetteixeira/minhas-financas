@@ -7,7 +7,7 @@ import org.hibernate.annotations.Cascade;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -26,7 +26,7 @@ public class Gasto implements Serializable {
     private Integer id;
 
     @Column(name = "data_gasto")
-    private Date dataGasto;
+    private LocalDateTime dataGasto;
 
     @Column
     private BigDecimal valor;
