@@ -39,9 +39,6 @@ public class CaixaEconomia implements Serializable {
     @Column(name = "valor_objetivo")
     private BigDecimal valorObjetivo = BigDecimal.ZERO;
 
-    @Column(name = "valor_economizado")
-    private BigDecimal valorEconomizado = BigDecimal.ZERO;
-
     @Column
     private Integer prazo;
 
@@ -56,6 +53,9 @@ public class CaixaEconomia implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "caixa")
     private List<ItemCaixaEconomia> itens = new ArrayList<>();
+
+    @Transient
+    private BigDecimal valorEconomizado = BigDecimal.ZERO;
 
     public CaixaEconomia(Integer id) {
         this.id = id;
