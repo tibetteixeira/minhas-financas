@@ -16,4 +16,24 @@ public class NumericUtils {
     public static Integer zeroIfNull(Integer valor) {
         return Objects.nonNull(valor) ? valor : 0;
     }
+
+    public static boolean maiorQue(BigDecimal v1, BigDecimal v2) {
+        return zeroIfNull(v1).compareTo(zeroIfNull(v2)) > 0;
+    }
+
+    public static boolean menorQue(BigDecimal v1, BigDecimal v2) {
+        return zeroIfNull(v1).compareTo(zeroIfNull(v2)) < 0;
+    }
+
+    public static boolean igualA(BigDecimal v1, BigDecimal v2) {
+        return zeroIfNull(v1).compareTo(zeroIfNull(v2)) == 0;
+    }
+
+    public static boolean maiorQueOuIgualA(BigDecimal v1, BigDecimal v2) {
+        return zeroIfNull(v1).compareTo(zeroIfNull(v2)) >= 0;
+    }
+
+    public static boolean menorQueOuIgualA(BigDecimal v1, BigDecimal v2) {
+        return zeroIfNull(v1).compareTo(zeroIfNull(v2)) <= 0;
+    }
 }

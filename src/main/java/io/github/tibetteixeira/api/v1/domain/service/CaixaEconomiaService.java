@@ -8,4 +8,5 @@ public interface CaixaEconomiaService extends CrudService<CaixaEconomia, Integer
 
     List<CaixaEconomia> buscarPorNome(String nome);
     List<CaixaEconomia> buscarTodas();
+    void validar(Integer caixaId);
 }

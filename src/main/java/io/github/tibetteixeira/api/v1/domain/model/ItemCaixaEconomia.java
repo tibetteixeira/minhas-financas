@@ -7,7 +7,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -30,7 +30,7 @@ public class ItemCaixaEconomia implements Serializable {
 
     @Column(name = "data_economia")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataEconomia;
+    private LocalDateTime dataEconomia;
 
     @ManyToOne
     @JoinColumn(name = "id_caixa_economia")

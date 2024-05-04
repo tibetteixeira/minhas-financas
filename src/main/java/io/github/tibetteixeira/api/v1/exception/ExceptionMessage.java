@@ -43,6 +43,8 @@ public class ExceptionMessage {
     public static final String ID_CAIXA_NAO_PODE_SER_VAZIO = "Id da caixinha não pode ser vazio";
     public static final String NOME_CAIXA_NAO_PODE_SER_VAZIO = "Nome da caixinha não pode ser vazio";
     public static final String CAIXA_NAO_PODE_SER_VAZIO = "Caixinha não pode ser vazio";
+    public static final String ID_ITEM_CAIXA_NAO_PODE_SER_VAZIO = "Id do item da caixinha não pode ser vazio";
+    public static final String ITEM_CAIXA_NAO_PODE_SER_VAZIO = "Item da caixinha não pode ser vazio";
 
 
 }

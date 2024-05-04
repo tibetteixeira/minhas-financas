@@ -5,7 +5,7 @@ import io.github.tibetteixeira.api.v1.domain.model.ItemCaixaEconomia;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ public class ItemCaixaEconomiaDTO {
 
     private Integer id;
     private BigDecimal valor;
-    private Date dataEconomia;
+    private LocalDateTime dataEconomia;
     private Integer caixaId;
 
     public ItemCaixaEconomia toModel() {

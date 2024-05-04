@@ -74,4 +74,9 @@ public class CaixaEconomiaServiceImpl implements CaixaEconomiaService {
     public List<CaixaEconomia> buscarTodas() {
         return repository.buscarPorUsuario(usuarioLogado.getId());
     }
+
+    @Override
+    public void validar(Integer caixaId) {
+        buscarPorId(caixaId);
+    }
 }

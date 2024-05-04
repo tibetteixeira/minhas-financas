@@ -14,7 +14,7 @@ public class Rotas {
     public static final String USUARIO_ID = "usuario/{usuario}";
     public static final String USUARIO_PARAM = "usuario";
     public static final String CARTAO_ID = "cartao/{cartao}";
-    public static final String ITEM_CAIXA_ECONOMIA = "/item";
+    public static final String CAIXA_ID = "caixa/{caixa}";
     public static final String DATA = "/data";
     public static final String AUTH = "/api/v1/auth";
     public static final String LOGOUT = "/logout";
@@ -27,4 +27,5 @@ public class Rotas {
     public static final String PAGAMENTO = "/api/v1/pagamento";
     public static final String RECEBIMENTO = "/api/v1/recebimento";
     public static final String CAIXA_ECONOMIA = "/api/v1/caixa";
+    public static final String ITEM_CAIXA_ECONOMIA = "/api/v1/item-caixa";
 }
