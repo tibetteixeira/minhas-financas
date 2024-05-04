@@ -1,13 +1,11 @@
 package io.github.tibetteixeira.api.v1.domain.model.dto;
 
-import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
-import io.github.tibetteixeira.api.v1.domain.model.Fatura;
-import io.github.tibetteixeira.api.v1.domain.model.Gasto;
-import io.github.tibetteixeira.api.v1.domain.model.Usuario;
+import io.github.tibetteixeira.api.v1.domain.model.*;
+import io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -18,12 +16,14 @@ import java.util.Objects;
 public class GastoDTO {
 
     private Integer id;
-    private Date dataGasto;
+    private LocalDateTime dataGasto;
     private BigDecimal valor;
     private String descricao;
+    private FormaPagamento formaPagamento;
     private Integer categoriaId;
     private Integer faturaId;
     private Integer usuarioId;
+    private Integer cartao;
 
     public Gasto toModel() {
         return Gasto.builder()
@@ -31,7 +31,9 @@ public class GastoDTO {
                 .dataGasto(dataGasto)
                 .valor(valor)
                 .descricao(descricao)
+                .formaPagamento(formaPagamento)
                 .categoria(new CategoriaGasto(categoriaId))
+                .cartao(new Cartao(cartao))
                 .usuario(new Usuario(usuarioId))
                 .fatura(Objects.nonNull(faturaId) ? new Fatura(faturaId) : null)
                 .build();

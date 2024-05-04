@@ -45,6 +45,15 @@ public class ExceptionMessage {
     public static final String CAIXA_NAO_PODE_SER_VAZIO = "Caixinha não pode ser vazio";
     public static final String ID_ITEM_CAIXA_NAO_PODE_SER_VAZIO = "Id do item da caixinha não pode ser vazio";
     public static final String ITEM_CAIXA_NAO_PODE_SER_VAZIO = "Item da caixinha não pode ser vazio";
-
+    public static final String ID_NAO_PODE_SER_VAZIO = "O ID não pode ser vazio";
+    public static final String GASTO_NAO_PODE_SER_VAZIO = "O gasto não pode ser vazio";
+    public static final String DESCRICAO_NAO_PODE_SER_VAZIO = "A descrição não pode ser vazia";
+    public static final String VALOR_NAO_PODE_SER_VAZIO = "O valor não pode ser vazio";
+    public static final String VALOR_NAO_PODE_SER_ZERO_OU_NEGATIVO = "O valor não pode ser zero ou negativo";
+    public static final String FORMA_PAGAMENTO_NAO_PODE_SER_VAZIA = "A forma de pagamento não pode ser vazia";
+    public static final String CATEGORIA_NAO_PODE_SER_VAZIA = "A categoria não pode ser vazia";
+    public static final String DATA_NAO_PODE_SER_VAZIA = "A data não pode ser vazia";
+    public static final String DATA_NAO_PODE_SER_ANTERIOR_A_2010 = "A data não pode ser anterior a 2010";
+    public static final String GASTO_POR_CREDITO_DEVE_TER_CARTAO = "O gasto por crédito deve ter algum cartão associado";
 
 }

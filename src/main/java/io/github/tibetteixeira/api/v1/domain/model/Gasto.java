@@ -1,13 +1,14 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
+import io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -26,13 +27,17 @@ public class Gasto implements Serializable {
     private Integer id;
 
     @Column(name = "data_gasto")
-    private Date dataGasto;
+    private LocalDateTime dataGasto;
 
     @Column
     private BigDecimal valor;
 
     @Column
     private String descricao;
+
+    @Column(name = "forma_pagamento")
+    @Enumerated(EnumType.STRING)
+    private FormaPagamento formaPagamento;
 
     @JoinColumn(name = "id_categoria")
     @ManyToOne
@@ -47,12 +52,16 @@ public class Gasto implements Serializable {
     @ManyToOne
     private Usuario usuario;
 
+    @Transient
+    private Cartao cartao;
+
     public GastoDTO toDTO() {
         return GastoDTO.builder()
                 .id(id)
                 .dataGasto(dataGasto)
                 .valor(valor)
                 .descricao(descricao)
+                .formaPagamento(formaPagamento)
                 .categoriaId(categoria.getId())
                 .usuarioId(usuario.getId())
                 .faturaId(Objects.nonNull(fatura) ? fatura.getId() : null)

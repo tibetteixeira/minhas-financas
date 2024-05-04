@@ -1,23 +1,45 @@
 package io.github.tibetteixeira.api.v1.domain.repository;
 
-import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
-import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GastoRepository extends JpaRepository<Gasto, Integer> {
 
-    List<Gasto> findByCategoriaOrderByDataGastoDesc(CategoriaGasto categoriaGasto);
+    @Query(value = """
+            SELECT g FROM Gasto g\s
+            INNER JOIN Usuario u ON u.id = g.usuario.id\s
+            WHERE u.id = :usuarioId AND u.dataAuditoria.dataExclusao IS NULL AND g.id = :id
+            """)
+    Optional<Gasto> buscarPorId(Integer id, Integer usuarioId);
 
-    List<Gasto> findByFaturaOrderByDataGastoDesc(Fatura fatura);
+    @Query(value = """
+            SELECT g FROM Gasto g\s
+            INNER JOIN Usuario u ON u.id = g.usuario.id\s
+            WHERE u.id = :usuarioId AND u.dataAuditoria.dataExclusao IS NULL AND g.categoria.id = :categoriaId AND g.fatura IS NULL\s
+            ORDER BY dataGasto DESC, g.id DESC
+            """)
+    List<Gasto> buscarPorCategoria(Integer categoriaId, Integer usuarioId);
 
-    @Query(
-            value = "SELECT G FROM Gasto G WHERE YEAR(G.dataGasto) = :ano AND MONTH(G.dataGasto) = :mes AND G.fatura is null ORDER BY dataGasto DESC"
-    )
-    List<Gasto> findByAnoAndMesAndFaturaIsNull(Integer ano, Integer mes);
+    @Query(value = """
+            SELECT g FROM Gasto g\s
+            INNER JOIN Usuario u ON u.id = g.usuario.id\s
+            WHERE YEAR(g.dataGasto) = :ano AND MONTH(g.dataGasto) = :mes AND g.fatura IS NULL\s
+            AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao IS NULL\s
+            ORDER BY dataGasto DESC, g.id DESC
+            """)
+    List<Gasto> buscarPorData(Integer ano, Integer mes, Integer usuarioId);
+
+    @Query(value = """
+            SELECT g FROM Gasto g\s
+            INNER JOIN Usuario u ON u.id = g.usuario.id
+            WHERE u.id = :usuarioId AND u.dataAuditoria.dataExclusao IS NULL AND g.fatura IS NULL\s
+            ORDER BY dataGasto DESC, g.id DESC
+            """)
+    List<Gasto> buscarTodos(Integer usuarioId);
 }

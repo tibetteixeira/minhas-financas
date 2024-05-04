@@ -7,12 +7,9 @@ import java.util.List;
 
 public interface GastoService extends CrudService<Gasto, Integer> {
 
-    List<Gasto> buscarGastoPorFatura(Integer id);
+    List<Gasto> buscarPorCategoria(Integer id);
 
-    List<Gasto> buscarGastoPorCategoria(Integer id);
+    List<Gasto> buscarTodos();
 
-    List<Gasto> buscarTodas();
-
-    List<Gasto> buscarGastosPorDataSemCartao(Integer ano, Mes mes);
-
+    List<Gasto> buscarPorData(Integer ano, Mes mes);
 }
