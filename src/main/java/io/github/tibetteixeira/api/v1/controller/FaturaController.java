@@ -1,7 +1,6 @@
 package io.github.tibetteixeira.api.v1.controller;
 
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
-import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import lombok.RequiredArgsConstructor;
@@ -21,27 +20,22 @@ public class FaturaController {
     private final FaturaService service;
 
     @GetMapping(path = Rotas.ID)
-    public FaturaDTO carregarFatura(@PathVariable Integer id) {
-        Fatura fatura = service.buscarPorId(id);
-        FaturaDTO faturaDTO = fatura.toDTO();
-        faturaDTO.setGastos(fatura.getGastos().stream()
-                .peek(gasto -> gasto.setFatura(null))
-                .map(Gasto::toDTO)
-                .collect(Collectors.toList()));
-        return faturaDTO;
+    public FaturaDTO carregarPorId(@PathVariable Integer id) {
+        return service.buscarPorId(id).toDTO();
     }
 
     @GetMapping(path = Rotas.CARTAO_ID)
-    public List<FaturaDTO> carregarFaturasDoCartao(@PathVariable Integer cartao) {
-        return service.buscarFaturaPorCartao(cartao).stream()
-                .map(fatura -> {
-                    FaturaDTO faturaDTO = fatura.toDTO();
-                    faturaDTO.setGastos(fatura.getGastos().stream()
-                            .peek(gasto -> gasto.setFatura(null))
-                            .map(Gasto::toDTO)
-                            .collect(Collectors.toList()));
-                    return faturaDTO;
-                })
+    public List<FaturaDTO> carregarPorCartao(@PathVariable Integer cartao) {
+        return service.buscarPorCartao(cartao).stream()
+                .map(Fatura::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping(path = Rotas.EMPTY)
+    public List<FaturaDTO> carregarTodas() {
+        return service.buscarTodas().stream()
+                .map(Fatura::toDTO)
+                .toList();
+    }
+
 }

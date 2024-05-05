@@ -1,15 +1,17 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
-import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
+import io.github.tibetteixeira.api.v1.domain.model.dto.GastoDTO;
 import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import lombok.*;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import static io.github.tibetteixeira.api.util.CollectionsUtils.listaValida;
 
 @Getter
 @Setter
@@ -27,17 +29,11 @@ public class Fatura implements Serializable {
     private Integer id;
 
     @Column(name = "data_vencimento")
-    private Date dataVencimento;
+    private LocalDate dataVencimento;
 
     @Column(name = "status_pagamento_fatura")
-    private StatusPagamentoFatura status = StatusPagamentoFatura.ABERTO;
-
-    @Column
     @Enumerated(EnumType.STRING)
-    private Mes mes;
-
-    @Column
-    private Integer ano;
+    private StatusPagamentoFatura status = StatusPagamentoFatura.ABERTO;
 
     @Column(name = "valor_pago")
     private BigDecimal valorPago;
@@ -54,14 +50,20 @@ public class Fatura implements Serializable {
     }
 
     public FaturaDTO toDTO() {
+        List<GastoDTO> gastosDTO = null;
+
+        if (listaValida(this.gastos))
+            gastosDTO = this.gastos.stream()
+                    .map(Gasto::toDTO)
+                    .toList();
+
         return FaturaDTO.builder()
                 .id(id)
                 .dataVencimento(dataVencimento)
                 .status(status)
+                .gastos(gastosDTO)
                 .valorPago(valorPago)
                 .cartaoId(cartao.getId())
-                .mes(mes)
-                .ano(ano)
                 .build();
     }
 }

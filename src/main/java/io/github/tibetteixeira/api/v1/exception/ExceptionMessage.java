@@ -55,5 +55,5 @@ public class ExceptionMessage {
     public static final String DATA_NAO_PODE_SER_VAZIA = "A data não pode ser vazia";
     public static final String DATA_NAO_PODE_SER_ANTERIOR_A_2010 = "A data não pode ser anterior a 2010";
     public static final String GASTO_POR_CREDITO_DEVE_TER_CARTAO = "O gasto por crédito deve ter algum cartão associado";
-
+    public static final String MES_NAO_PODE_SER_INVALIDO = "O mês não pode ser inválido";
 }
