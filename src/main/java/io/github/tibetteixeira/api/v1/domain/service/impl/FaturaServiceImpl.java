@@ -31,7 +31,9 @@ public class FaturaServiceImpl implements FaturaService {
     public void salvar(Fatura fatura) {}
 
     @Override
-    public void atualizar(Integer id, Fatura fatura) {}
+    public void atualizar(Integer id, Fatura fatura) {
+        repository.save(fatura);
+    }
 
     @Override
     public void remover(Integer id) {}

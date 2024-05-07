@@ -10,6 +10,7 @@ public enum FormaPagamento {
     CREDITO("Cartão de Crédito"),
     DEBITO("Cartão de Débito"),
     DINHEIRO("Dinheiro"),
+    BOLETO("Boleto bancário"),
     PIX("Pix"),
     OUTRO("Outro");
 

@@ -1,13 +1,13 @@
 package io.github.tibetteixeira.api.v1.domain.model;
 
 import io.github.tibetteixeira.api.v1.domain.model.dto.PagamentoDTO;
-import io.github.tibetteixeira.api.v1.domain.model.enums.TipoPagamento;
+import io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento;
 import lombok.*;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -32,11 +32,11 @@ public class Pagamento implements Serializable {
     private String descricao;
 
     @Column(name = "data_pagamento")
-    private Date dataPagamento;
+    private LocalDateTime dataPagamento;
 
-    @Column(name = "tipo_pagamento")
+    @Column(name = "forma_pagamento")
     @Enumerated(EnumType.STRING)
-    private TipoPagamento tipoPagamento;
+    private FormaPagamento formaPagamento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
@@ -52,7 +52,7 @@ public class Pagamento implements Serializable {
                 .valor(valor)
                 .descricao(descricao)
                 .dataPagamento(dataPagamento)
-                .tipoPagamento(tipoPagamento)
+                .formaPagamento(formaPagamento)
                 .faturaId(Objects.nonNull(fatura) ? fatura.getId() : null)
                 .usuarioId(usuario.getId())
                 .build();

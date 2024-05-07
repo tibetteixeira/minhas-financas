@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static io.github.tibetteixeira.api.util.CollectionsUtils.listaValida;
+import static io.github.tibetteixeira.api.util.NumericUtils.zeroIfNull;
 
 @Getter
 @Setter
@@ -65,5 +66,13 @@ public class Fatura implements Serializable {
                 .valorPago(valorPago)
                 .cartaoId(cartao.getId())
                 .build();
+    }
+
+    public void adicionarPagamento(BigDecimal valorPago) {
+        this.valorPago = zeroIfNull(this.valorPago).add(zeroIfNull(valorPago));
+    }
+
+    public void removerPagamento(BigDecimal valorPago) {
+        this.valorPago = zeroIfNull(this.valorPago).subtract(zeroIfNull(valorPago));
     }
 }
