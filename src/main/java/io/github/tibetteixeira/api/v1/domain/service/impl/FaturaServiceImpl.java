@@ -28,7 +28,9 @@ public class FaturaServiceImpl implements FaturaService {
     private final ValidadorFatura validador;
 
     @Override
-    public void salvar(Fatura fatura) {}
+    public void salvar(Fatura fatura) {
+        // Fatura deve ser criada apenas pelo método criarOuBuscarFaturaDoCartaoPorMesAno
+    }
 
     @Override
     public void atualizar(Integer id, Fatura fatura) {
@@ -36,7 +38,9 @@ public class FaturaServiceImpl implements FaturaService {
     }
 
     @Override
-    public void remover(Integer id) {}
+    public void remover(Integer id) {
+        // Uma fatura nunca deve ser removida
+    }
 
     @Override
     public Fatura buscarPorId(Integer id) {
@@ -69,6 +73,7 @@ public class FaturaServiceImpl implements FaturaService {
         fatura = Fatura.builder()
                 .cartao(cartaoDaBase)
                 .status(ABERTO)
+                .usuario(usuarioLogado.getUsuario())
                 .dataVencimento(LocalDate.of(ano, mes, cartaoDaBase.getDiaVencimento()))
                 .build();
 

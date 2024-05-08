@@ -62,6 +62,10 @@ public class Usuario implements UserDetails, Serializable {
     @OneToMany(mappedBy = "usuario")
     private List<CaixaEconomia> caixas = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    private List<Fatura> faturas = new ArrayList<>();
+
     @Transient
     private Collection<? extends GrantedAuthority> roles = new ArrayList<>();
 

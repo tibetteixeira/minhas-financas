@@ -43,6 +43,10 @@ public class Fatura implements Serializable {
     @JoinColumn(name = "id_cartao")
     private Cartao cartao;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     @OneToMany(mappedBy = "fatura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gasto> gastos;
 
@@ -65,6 +69,7 @@ public class Fatura implements Serializable {
                 .gastos(gastosDTO)
                 .valorPago(valorPago)
                 .cartaoId(cartao.getId())
+                .usuarioId(usuario.getId())
                 .build();
     }
 
