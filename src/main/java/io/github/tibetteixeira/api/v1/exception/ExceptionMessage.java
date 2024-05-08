@@ -38,6 +38,8 @@ public class ExceptionMessage {
     public static final String DIA_VENCIMENTO_NAO_PODE_SER_VAZIO = "O dia do vencimento não pode ser vazio";
     public static final String DIA_VENCIMENTO_NAO_PODE_SER_INVALIDO = "O dia do vencimento não pode ser um valor inválido";
     public static final String FORMATO_JSON_INVALIDO = "Formato do JSON inválido";
+    public static final String FORMATO_DATA_INVALIDA = "Formato da data inválida";
+    public static final String VALOR_ENUM_INVALIDO = "Valor do ENUM inválido";
     public static final String ID_CATEGORIA_GASTO_NAO_PODE_SER_VAZIO = "Id da categoria de gasto não pode ser vazio";
     public static final String DESCRICAO_NAO_PODE_SER_VAZIA = "Descrição não pode ser vazia";
     public static final String ID_CAIXA_NAO_PODE_SER_VAZIO = "Id da caixinha não pode ser vazio";
