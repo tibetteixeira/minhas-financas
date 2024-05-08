@@ -59,7 +59,7 @@ public class ValidadorGasto {
 
     public void validarDescricao(String descricacao) {
         if (isEmpty(descricacao))
-            throw new GastoException(DESCRICAO_NAO_PODE_SER_VAZIO);
+            throw new GastoException(DESCRICAO_NAO_PODE_SER_VAZIA);
     }
 
     public void validarValor(BigDecimal valor) {

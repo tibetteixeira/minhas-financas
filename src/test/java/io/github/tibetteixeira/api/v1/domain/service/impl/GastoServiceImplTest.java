@@ -104,7 +104,7 @@ public class GastoServiceImplTest {
                 () -> service.salvar(gasto)
         );
 
-        assertThat(exception).hasMessage("A descrição não pode ser vazia");
+        assertThat(exception).hasMessage("Descrição não pode ser vazia");
     }
 
     @Test
@@ -231,7 +231,7 @@ public class GastoServiceImplTest {
                 () -> service.atualizar(1, gasto)
         );
 
-        assertThat(exception).hasMessage("A descrição não pode ser vazia");
+        assertThat(exception).hasMessage("Descrição não pode ser vazia");
     }
 
     @Test
