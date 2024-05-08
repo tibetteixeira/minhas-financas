@@ -13,8 +13,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Integer> {
     @Query("""
             SELECT p FROM Pagamento p\s
             INNER JOIN Fatura f on f.id = p.fatura.id\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
             WHERE p.id = :id\s
             AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
@@ -23,8 +22,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Integer> {
     @Query("""
             SELECT p FROM Pagamento p\s
             INNER JOIN Fatura f on f.id = p.fatura.id\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
             WHERE f.id = :faturaId\s
             AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null\s
             ORDER BY p.fatura.id desc, p.dataPagamento desc, p.id desc
@@ -34,8 +32,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Integer> {
     @Query("""
             SELECT p FROM Pagamento p\s
             INNER JOIN Fatura f on f.id = p.fatura.id\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
             WHERE u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null\s
             ORDER BY p.fatura.id desc, p.dataPagamento desc, p.id desc
             """)
