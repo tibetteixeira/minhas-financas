@@ -5,10 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum TipoPagamento {
+public enum FormaPagamento {
 
-    CARTAO("Cartão"),
+    CREDITO("Cartão de Crédito"),
+    DEBITO("Cartão de Débito"),
     DINHEIRO("Dinheiro"),
+    BOLETO("Boleto bancário"),
     PIX("Pix"),
     OUTRO("Outro");
 

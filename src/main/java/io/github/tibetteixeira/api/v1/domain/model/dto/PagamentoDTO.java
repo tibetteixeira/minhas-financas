@@ -3,11 +3,11 @@ package io.github.tibetteixeira.api.v1.domain.model.dto;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
-import io.github.tibetteixeira.api.v1.domain.model.enums.TipoPagamento;
+import io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -20,8 +20,8 @@ public class PagamentoDTO {
     private Integer id;
     private BigDecimal valor;
     private String descricao;
-    private Date dataPagamento;
-    private TipoPagamento tipoPagamento;
+    private LocalDateTime dataPagamento;
+    private FormaPagamento formaPagamento;
     private Integer usuarioId;
     private Integer faturaId;
 
@@ -31,7 +31,7 @@ public class PagamentoDTO {
                 .valor(valor)
                 .descricao(descricao)
                 .dataPagamento(dataPagamento)
-                .tipoPagamento(tipoPagamento)
+                .formaPagamento(formaPagamento)
                 .usuario(new Usuario(usuarioId))
                 .fatura(Objects.nonNull(faturaId) ? new Fatura(faturaId) : null)
                 .build();

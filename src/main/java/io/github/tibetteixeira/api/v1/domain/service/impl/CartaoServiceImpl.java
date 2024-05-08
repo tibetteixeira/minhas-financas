@@ -25,6 +25,7 @@ public class CartaoServiceImpl implements CartaoService {
     @Override
     public void salvar(Cartao cartao) {
         validador.validar(cartao);
+        cartao.setUsuario(usuarioLogado.getUsuario());
         repository.save(cartao);
     }
 

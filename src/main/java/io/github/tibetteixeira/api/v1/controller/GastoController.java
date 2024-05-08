@@ -46,30 +46,23 @@ public class GastoController {
         return service.buscarPorId(id).toDTO();
     }
 
-    @GetMapping(path = "/fatura/{id}")
-    public List<GastoDTO> buscarPorFatura(@PathVariable Integer id) {
-        return service.buscarGastoPorFatura(id).stream()
-                .map(Gasto::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping(path = "/categoria/{id}")
+    @GetMapping(path = Rotas.CATEGORIA_ID)
     public List<GastoDTO> buscarPorCategoria(@PathVariable Integer id) {
-        return service.buscarGastoPorCategoria(id).stream()
+        return service.buscarPorCategoria(id).stream()
                 .map(Gasto::toDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping(path = Rotas.EMPTY)
     public List<GastoDTO> buscarTodas() {
-        return service.buscarTodas().stream()
+        return service.buscarTodos().stream()
                 .map(Gasto::toDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping(path = Rotas.DATA)
-    public List<GastoDTO> buscarGastosPorDataSemCartao(@RequestParam Integer ano, @RequestParam Mes mes) {
-        return service.buscarGastosPorDataSemCartao(ano, mes).stream()
+    public List<GastoDTO> buscarPorData(@RequestParam Integer ano, @RequestParam Mes mes) {
+        return service.buscarPorData(ano, mes).stream()
                 .map(Gasto::toDTO)
                 .collect(Collectors.toList());
     }

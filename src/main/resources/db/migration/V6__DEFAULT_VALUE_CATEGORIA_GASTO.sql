@@ -1,0 +1,1 @@
+ALTER TABLE gasto ALTER COLUMN id_categoria SET DEFAULT 2;

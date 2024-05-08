@@ -1,55 +1,66 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
-import io.github.tibetteixeira.api.v1.domain.model.CategoriaGasto;
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Gasto;
 import io.github.tibetteixeira.api.v1.domain.model.enums.Mes;
 import io.github.tibetteixeira.api.v1.domain.repository.GastoRepository;
-import io.github.tibetteixeira.api.v1.domain.service.CategoriaGastoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.GastoService;
+import io.github.tibetteixeira.api.v1.domain.validator.ValidadorGasto;
 import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
-import io.github.tibetteixeira.api.util.CollectionsUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
+
+import static io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento.CREDITO;
 
 @Service
 @RequiredArgsConstructor
 public class GastoServiceImpl implements GastoService {
 
     private final GastoRepository repository;
-    private final CategoriaGastoService categoriaGastoService;
     private final FaturaService faturaService;
+    private final ValidadorGasto validador;
+    private final UsuarioLogado usuarioLogado;
 
     @Override
     public void salvar(Gasto gasto) {
-        if (Objects.nonNull(gasto.getFatura())) {
-            Fatura fatura = faturaService.buscaOuSalva(gasto.getFatura());
+        validador.validar(gasto);
+
+        if (CREDITO.equals(gasto.getFormaPagamento())) {
+            Fatura fatura = faturaService.criarOuBuscarFaturaDoCartaoPorMesAno(gasto.getCartao(),
+                    gasto.getDataGasto().getYear(),
+                    gasto.getDataGasto().getMonthValue());
             gasto.setFatura(fatura);
         }
+
+        gasto.setUsuario(usuarioLogado.getUsuario());
 
         repository.save(gasto);
     }
 
     @Override
     public void atualizar(Integer id, Gasto gasto) {
+        validador.validar(id, gasto);
+
         Gasto gastoDaBase = buscarPorId(id);
-
-        if (Objects.nonNull(gasto.getFatura())) {
-            Fatura fatura = faturaService.buscaOuSalva(gasto.getFatura());
-            gasto.setFatura(fatura);
-        }
-
         gastoDaBase.setDescricao(gasto.getDescricao());
         gastoDaBase.setDataGasto(gasto.getDataGasto());
         gastoDaBase.setCategoria(gasto.getCategoria());
+        gastoDaBase.setFormaPagamento(gasto.getFormaPagamento());
         gastoDaBase.setValor(gasto.getValor());
-        gastoDaBase.setFatura(gasto.getFatura());
+
+        if (CREDITO.equals(gasto.getFormaPagamento())) {
+            Fatura fatura = faturaService.criarOuBuscarFaturaDoCartaoPorMesAno(gasto.getCartao(),
+                    gasto.getDataGasto().getYear(),
+                    gasto.getDataGasto().getMonthValue());
+            gastoDaBase.setFatura(fatura);
+        } else {
+            gastoDaBase.setFatura(null);
+        }
 
         repository.save(gastoDaBase);
     }
@@ -61,39 +72,26 @@ public class GastoServiceImpl implements GastoService {
 
     @Override
     public Gasto buscarPorId(Integer id) {
+        validador.validar(id);
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.GASTO_NAO_ENCONTRADO));
     }
 
     @Override
-    public List<Gasto> buscarGastoPorCategoria(Integer idCategoria) {
-        CategoriaGasto categoria = categoriaGastoService.buscarPorId(idCategoria);
-        List<Gasto> gastos = repository.findByCategoriaOrderByDataGastoDesc(categoria);
-
-        if (CollectionsUtils.listaValida(gastos))
-            return gastos;
-
-        throw new NotFoundException(ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_CATEGORIA);
+    public List<Gasto> buscarPorCategoria(Integer categoriaId) {
+        validador.validar(categoriaId);
+        return repository.buscarPorCategoria(categoriaId, usuarioLogado.getId());
     }
 
     @Override
-    public List<Gasto> buscarGastoPorFatura(Integer idFatura) {
-        Fatura fatura = faturaService.buscarPorId(idFatura);
-        List<Gasto> gastos = repository.findByFaturaOrderByDataGastoDesc(fatura);
-
-        if (CollectionsUtils.listaValida(gastos))
-            return gastos;
-
-        throw new NotFoundException(ExceptionMessage.NAO_HA_GASTOS_PARA_ESSA_FATURA);
+    public List<Gasto> buscarTodos() {
+        return repository.buscarTodos(usuarioLogado.getId());
     }
 
     @Override
-    public List<Gasto> buscarTodas() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "dataGasto"));
-    }
-
-    @Override
-    public List<Gasto> buscarGastosPorDataSemCartao(Integer ano, Mes mes) {
-        return repository.findByAnoAndMesAndFaturaIsNull(ano, mes.getNumeroMes());
+    public List<Gasto> buscarPorData(Integer ano, Mes mes) {
+        validador.validarAno(ano);
+        validador.validarMes(mes);
+        return repository.buscarPorData(ano, mes.getNumeroMes(), usuarioLogado.getId());
     }
 }

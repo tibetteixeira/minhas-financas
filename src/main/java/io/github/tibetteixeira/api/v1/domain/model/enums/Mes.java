@@ -20,6 +20,6 @@ public enum Mes {
     NOVEMBRO(11, "Novembro"),
     DEZEMBRO(12, "Dezembro");
 
-    private Integer numeroMes;
-    private String descricao;
+    private final Integer numeroMes;
+    private final String descricao;
 }
