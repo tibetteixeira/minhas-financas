@@ -3,7 +3,9 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.Usuario;
 import io.github.tibetteixeira.api.v1.domain.repository.FaturaRepository;
+import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorFatura;
 import io.github.tibetteixeira.api.v1.exception.FaturaException;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
@@ -14,22 +16,30 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura.ABERTO;
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FaturaServiceImplTest {
     @Mock
     private FaturaRepository repository;
     @Mock
     private UsuarioLogado usuarioLogado;
+    @Mock
+    private CartaoService cartaoService;
     @InjectMocks
     private FaturaServiceImpl service;
+
+    private Fatura fatura;
+    private Cartao cartao;
 
     @Before
     public void init() {
@@ -39,6 +49,9 @@ public class FaturaServiceImplTest {
         ReflectionTestUtils.setField(service, "validador", validador);
 
         when(usuarioLogado.getId()).thenReturn(1);
+        when(usuarioLogado.getUsuario()).thenReturn(dadoUsuario());
+        cartao = dadoCartao();
+        fatura = dadoFatura();
     }
 
     @Test
@@ -94,6 +107,30 @@ public class FaturaServiceImplTest {
     }
 
     @Test
+    public void deveriaCriarFaturaDoCartaoPorMesAno() {
+        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt())).thenReturn(empty());
+        when(repository.saveAndFlush(any(Fatura.class))).thenReturn(fatura);
+        when(cartaoService.buscarPorId(anyInt())).thenReturn(cartao);
+
+        service.criarOuBuscarFaturaDoCartaoPorMesAno(cartao, 2023, 7);
+
+        verify(repository, times(1)).saveAndFlush(any(Fatura.class));
+    }
+
+    @Test
+    public void deveriaBuscarFaturaDoCartaoPorMesAno() {
+        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt())).thenReturn(of(fatura));
+        when(cartaoService.buscarPorId(anyInt())).thenReturn(cartao);
+
+        Fatura faturaBuscada = service.criarOuBuscarFaturaDoCartaoPorMesAno(cartao, 2023, 7);
+
+        assertThat(faturaBuscada).isNotNull();
+        assertThat(faturaBuscada.getId()).isEqualByComparingTo(1);
+        assertThat(faturaBuscada.getCartao().getId()).isEqualByComparingTo(1);
+        verify(repository, times(0)).saveAndFlush(any(Fatura.class));
+    }
+
+    @Test
     public void deveriaValidarCartaoIdNuloAoCriarOuBuscarFaturaDoCartaoPorMesAno() {
         Cartao cartao = new Cartao();
         Exception exception = assertThrows(FaturaException.class,
@@ -141,5 +178,41 @@ public class FaturaServiceImplTest {
         );
 
         assertThat(exception).hasMessage("O mês não pode ser inválido");
+    }
+
+    @Test
+    public void deveriaValidarAtualizacao() {
+        service.atualizar(1, fatura);
+        verify(repository, times(1)).save(any(Fatura.class));
+    }
+
+    private Fatura dadoFatura() {
+        return Fatura.builder()
+                .id(1)
+                .cartao(cartao)
+                .status(ABERTO)
+                .usuario(usuarioLogado.getUsuario())
+                .dataVencimento(LocalDate.of(2024, 7, cartao.getDiaVencimento()))
+                .build();
+    }
+
+    private Cartao dadoCartao() {
+        return Cartao.builder()
+                .id(1)
+                .nome("MeuBank")
+                .diaVencimento(8)
+                .ultimosQuatroDigitosCartao("1010")
+                .usuario(dadoUsuario())
+                .build();
+    }
+
+    private Usuario dadoUsuario() {
+        return Usuario.builder()
+                .id(1)
+                .nome("Nome")
+                .sobrenome("Sobrenome")
+                .email("email@email.com")
+                .senha("123")
+                .build();
     }
 }
