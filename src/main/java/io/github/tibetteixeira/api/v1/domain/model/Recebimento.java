@@ -7,7 +7,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,7 +25,7 @@ public class Recebimento implements Serializable {
     private Integer id;
 
     @Column(name = "data_recebimento")
-    private Date dataRecebimento;
+    private LocalDateTime dataRecebimento;
 
     @Column
     private BigDecimal valor;

@@ -1,35 +1,48 @@
 package io.github.tibetteixeira.api.v1.domain.service.impl;
 
+import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
+import io.github.tibetteixeira.api.v1.domain.validator.ValidadorRecebimento;
 import io.github.tibetteixeira.api.v1.exception.ExceptionMessage;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
 public class RecebimentoServiceImpl implements RecebimentoService {
 
     private final RecebimentoRepository repository;
+    private final UsuarioLogado usuarioLogado;
+    private final ValidadorRecebimento validador;
 
     @Override
     public void salvar(Recebimento recebimento) {
+        validador.validar(recebimento);
+
+        recebimento.setUsuario(usuarioLogado.getUsuario());
+        definirDataRecebimento(recebimento);
+
         repository.save(recebimento);
     }
 
     @Override
     public void atualizar(Integer id, Recebimento recebimento) {
-        Recebimento recebimentoDaBase = buscarPorId(id);
+        validador.validar(id, recebimento);
 
+        Recebimento recebimentoDaBase = buscarPorId(id);
         recebimentoDaBase.setDescricao(recebimento.getDescricao());
         recebimentoDaBase.setDataRecebimento(recebimento.getDataRecebimento());
         recebimentoDaBase.setTipoRecebimento(recebimento.getTipoRecebimento());
         recebimentoDaBase.setValor(recebimento.getValor());
+        definirDataRecebimento(recebimentoDaBase);
 
         repository.save(recebimentoDaBase);
     }
@@ -41,18 +54,25 @@ public class RecebimentoServiceImpl implements RecebimentoService {
 
     @Override
     public Recebimento buscarPorId(Integer id) {
-        return repository.findById(id)
+        validador.validar(id);
+        return repository.buscarPorId(id, usuarioLogado.getId())
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.RECEBIMENTO_NAO_ENCONTRADO));
     }
 
     @Override
     public List<Recebimento> buscarPorDescricao(String descricao) {
-        return repository.findByDescricaoContainsIgnoreCaseOrderByDataRecebimentoDesc(descricao);
+        validador.validarDescricao(descricao);
+        return repository.buscarPorDescricao(descricao, usuarioLogado.getId());
     }
 
     @Override
-    public List<Recebimento> buscarTodas() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "dataRecebimento"));
+    public List<Recebimento> buscarTodos() {
+        return repository.buscarTodos(usuarioLogado.getId());
+    }
+
+    private void definirDataRecebimento(Recebimento recebimento) {
+        if (isNull(recebimento.getDataRecebimento()))
+            recebimento.setDataRecebimento(LocalDateTime.now());
     }
 
 }

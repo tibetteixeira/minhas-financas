@@ -28,9 +28,6 @@ public class RecebimentoController {
 
     @PutMapping(path = Rotas.ID)
     public void atualizar(@PathVariable Integer id, @RequestBody RecebimentoDTO recebimento) {
-        if (BooleanUtils.isFalse(id.equals(recebimento.getId())))
-            throw new NotSameIdException(ExceptionMessage.ID_ROTA_DIFERENTE_ID_OBJETO);
-
         service.atualizar(id, recebimento.toModel());
     }
 
@@ -55,7 +52,7 @@ public class RecebimentoController {
 
     @GetMapping(path = Rotas.EMPTY)
     public List<RecebimentoDTO> buscarTodas() {
-        return service.buscarTodas().stream()
+        return service.buscarTodos().stream()
                 .map(Recebimento::toDTO)
                 .collect(Collectors.toList());
     }

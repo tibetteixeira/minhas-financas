@@ -6,7 +6,7 @@ import io.github.tibetteixeira.api.v1.domain.model.enums.TipoRecebimento;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.util.Date;
 public class RecebimentoDTO {
 
     private Integer id;
-    private Date dataRecebimento;
+    private LocalDateTime dataRecebimento;
     private BigDecimal valor;
     private String descricao;
     private TipoRecebimento tipoRecebimento;

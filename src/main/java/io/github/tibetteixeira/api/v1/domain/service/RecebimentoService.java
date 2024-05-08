@@ -8,6 +8,6 @@ public interface RecebimentoService extends CrudService<Recebimento, Integer> {
 
     List<Recebimento> buscarPorDescricao(String descricao);
 
-    List<Recebimento> buscarTodas();
+    List<Recebimento> buscarTodos();
 
 }

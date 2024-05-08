@@ -59,4 +59,7 @@ public class ExceptionMessage {
     public static final String PAGAMENTO_NAO_PODE_SER_VAZIO = "O pagamento não pode ser vazio";
     public static final String FATURA_NAO_PODE_SER_VAZIA = "A fatura não pode ser vazia";
     public static final String FORMA_PAGAMENTO_INVALIDA = "Essa forma de pagamento é inválida";
+    public static final String RECEBIMENTO_NAO_PODE_SER_VAZIO = "O recebimento não pode ser vazio";
+    public static final String TIPO_RECEBIMENTO_NAO_PODE_SER_VAZIO = "O tipo de recebimento não pode ser vazio";
+
 }
