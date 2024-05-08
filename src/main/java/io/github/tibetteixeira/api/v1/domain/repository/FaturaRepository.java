@@ -13,8 +13,7 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
     @Query("""
             SELECT f FROM Fatura f\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
             WHERE f.id = :id\s
             AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
@@ -22,25 +21,24 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
     @Query("""
             SELECT f FROM Fatura f\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
-            WHERE c.id = :cartaoId\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
+            WHERE f.cartao.id = :cartaoId\s
             AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
     List<Fatura> buscarPorCartao(Integer cartaoId, Integer usuarioId);
 
     @Query("""
             SELECT f FROM Fatura f\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            INNER JOIN Usuario u on u.id = c.usuario.id\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
             WHERE u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
     List<Fatura> buscarTodas(Integer usuarioId);
 
     @Query("""
             SELECT f FROM Fatura f\s
-            INNER JOIN Cartao c on c.id = f.cartao.id\s
-            WHERE c.id = :cartaoId AND MONTH(dataVencimento) = :mes AND YEAR(dataVencimento) = :ano\s
+            INNER JOIN Usuario u on u.id = f.usuario.id\s
+            WHERE f.cartao.id = :cartaoId AND MONTH(dataVencimento) = :mes AND YEAR(dataVencimento) = :ano\s
+            AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
-    Optional<Fatura> buscarPorCartaoMesAno(Integer cartaoId, Integer mes, Integer ano);
+    Optional<Fatura> buscarPorCartaoMesAno(Integer cartaoId, Integer mes, Integer ano, Integer usuarioId);
 }

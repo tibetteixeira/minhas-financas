@@ -64,7 +64,7 @@ public class FaturaServiceImpl implements FaturaService {
     public Fatura criarOuBuscarFaturaDoCartaoPorMesAno(Cartao cartao, Integer ano, Integer mes) {
         validador.validar(cartao, ano, mes);
         Cartao cartaoDaBase = cartaoService.buscarPorId(cartao.getId());
-        Fatura fatura = repository.buscarPorCartaoMesAno(cartaoDaBase.getId(), mes, ano)
+        Fatura fatura = repository.buscarPorCartaoMesAno(cartaoDaBase.getId(), mes, ano, usuarioLogado.getId())
                 .orElse(null);
 
         if (nonNull(fatura))

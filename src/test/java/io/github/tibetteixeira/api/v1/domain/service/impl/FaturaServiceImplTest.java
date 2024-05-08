@@ -108,7 +108,7 @@ public class FaturaServiceImplTest {
 
     @Test
     public void deveriaCriarFaturaDoCartaoPorMesAno() {
-        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt())).thenReturn(empty());
+        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(empty());
         when(repository.saveAndFlush(any(Fatura.class))).thenReturn(fatura);
         when(cartaoService.buscarPorId(anyInt())).thenReturn(cartao);
 
@@ -119,7 +119,7 @@ public class FaturaServiceImplTest {
 
     @Test
     public void deveriaBuscarFaturaDoCartaoPorMesAno() {
-        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt())).thenReturn(of(fatura));
+        when(repository.buscarPorCartaoMesAno(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(of(fatura));
         when(cartaoService.buscarPorId(anyInt())).thenReturn(cartao);
 
         Fatura faturaBuscada = service.criarOuBuscarFaturaDoCartaoPorMesAno(cartao, 2023, 7);
