@@ -3,6 +3,9 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
+import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
+import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import io.github.tibetteixeira.api.v1.domain.repository.FaturaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
@@ -12,10 +15,12 @@ import io.github.tibetteixeira.api.v1.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura.ABERTO;
+import static io.github.tibetteixeira.api.util.NumericUtils.*;
+import static io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura.*;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -26,6 +31,7 @@ public class FaturaServiceImpl implements FaturaService {
     private final CartaoService cartaoService;
     private final UsuarioLogado usuarioLogado;
     private final ValidadorFatura validador;
+    private final Relogio relogio;
 
     @Override
     public void salvar(Fatura fatura) {
@@ -34,6 +40,7 @@ public class FaturaServiceImpl implements FaturaService {
 
     @Override
     public void atualizar(Integer id, Fatura fatura) {
+        atualizarStatus(fatura);
         repository.save(fatura);
     }
 
@@ -78,5 +85,34 @@ public class FaturaServiceImpl implements FaturaService {
                 .build();
 
         return repository.saveAndFlush(fatura);
+    }
+
+    @Override
+    public List<Fatura> buscarPorStatus(StatusPagamentoFatura... status) {
+        return repository.buscarPorStatus(status);
+    }
+
+    @Override
+    public void atualizarStatusAtrasado(Fatura fatura) {
+        if (fatura.getDataVencimento().isBefore(relogio.hoje().toLocalDate())) {
+            fatura.setStatus(ATRASADO);
+            repository.save(fatura);
+        }
+    }
+
+    @Override
+    public void atualizarStatus(Fatura fatura) {
+        FaturaDTO faturaDTO = buscarEstadoAtual(fatura.getId());
+
+        if (maiorQueOuIgualA(faturaDTO.getValorPago(), faturaDTO.getTotalGastos()))
+            fatura.setStatus(PAGO);
+        else if (menorQue(faturaDTO.getValorPago(), faturaDTO.getTotalGastos()) && maiorQue(faturaDTO.getValorPago(), BigDecimal.ZERO))
+            fatura.setStatus(fatura.getStatus().equals(ATRASADO) ? ATRASADO : PAGO_PARCIALMENTE);
+        else
+            fatura.setStatus(ABERTO);
+    }
+
+    private FaturaDTO buscarEstadoAtual(Integer id) {
+        return repository.buscarEstadoAtual(id);
     }
 }

@@ -3,7 +3,9 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Cartao;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import io.github.tibetteixeira.api.v1.domain.model.Usuario;
+import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
 import io.github.tibetteixeira.api.v1.domain.repository.FaturaRepository;
 import io.github.tibetteixeira.api.v1.domain.service.CartaoService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorFatura;
@@ -16,11 +18,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura.ABERTO;
+import static io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura.*;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +39,8 @@ public class FaturaServiceImplTest {
     private UsuarioLogado usuarioLogado;
     @Mock
     private CartaoService cartaoService;
+    @Mock
+    private Relogio relogio;
     @InjectMocks
     private FaturaServiceImpl service;
 
@@ -182,8 +188,64 @@ public class FaturaServiceImplTest {
 
     @Test
     public void deveriaValidarAtualizacao() {
+        FaturaDTO faturaDTO = new FaturaDTO(1, BigDecimal.ONE, BigDecimal.TEN);
+        when(repository.buscarEstadoAtual(anyInt())).thenReturn(faturaDTO);
+
         service.atualizar(1, fatura);
         verify(repository, times(1)).save(any(Fatura.class));
+    }
+
+    @Test
+    public void deveriaValidarStatusAbertoAoRealizarPagamento() {
+        FaturaDTO faturaDTO = new FaturaDTO(1, BigDecimal.ZERO, BigDecimal.TEN);
+        when(repository.buscarEstadoAtual(anyInt())).thenReturn(faturaDTO);
+
+        service.atualizarStatus(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(ABERTO);
+    }
+
+    @Test
+    public void deveriaValidarStatusPagoAoRealizarPagamento() {
+        FaturaDTO faturaDTO = new FaturaDTO(1, BigDecimal.TEN, BigDecimal.TEN);
+        when(repository.buscarEstadoAtual(anyInt())).thenReturn(faturaDTO);
+
+        service.atualizarStatus(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(PAGO);
+    }
+
+    @Test
+    public void deveriaValidarStatusPagoParcialmenteAoRealizarPagamento() {
+        FaturaDTO faturaDTO = new FaturaDTO(1, BigDecimal.ONE, BigDecimal.TEN);
+        when(repository.buscarEstadoAtual(anyInt())).thenReturn(faturaDTO);
+
+        service.atualizarStatus(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(PAGO_PARCIALMENTE);
+    }
+
+    @Test
+    public void deveriaValidarStatusAtrasadoAoRealizarPagamento() {
+        FaturaDTO faturaDTO = new FaturaDTO(1, BigDecimal.ONE, BigDecimal.TEN);
+        when(repository.buscarEstadoAtual(anyInt())).thenReturn(faturaDTO);
+
+        fatura.setStatus(ATRASADO);
+        service.atualizarStatus(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(ATRASADO);
+    }
+
+    @Test
+    public void deveriaValidarAoAtualizarStatusAtrasado() {
+        when(relogio.hoje()).thenReturn(LocalDateTime.of(2024, 7, 9, 1, 2));
+        service.atualizarStatusAtrasado(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(ATRASADO);
+        verify(repository, times(1)).save(any(Fatura.class));
+    }
+
+    @Test
+    public void deveriaValidarAoAtualizarStatusNaoAtrasado() {
+        when(relogio.hoje()).thenReturn(LocalDateTime.of(2024, 7, 7, 1, 2));
+        service.atualizarStatusAtrasado(fatura);
+        assertThat(fatura.getStatus()).isEqualTo(ABERTO);
+        verify(repository, times(0)).save(any(Fatura.class));
     }
 
     private Fatura dadoFatura() {

@@ -24,6 +24,13 @@ public class FaturaDTO {
     private Integer cartaoId;
     private Integer usuarioId;
     private List<GastoDTO> gastos;
+    private BigDecimal totalGastos;
+
+    public FaturaDTO(Integer id, BigDecimal valorPago, BigDecimal totalGastos) {
+        this.id = id;
+        this.valorPago = valorPago;
+        this.totalGastos = totalGastos;
+    }
 
     public Fatura toModel() {
         return Fatura.builder()

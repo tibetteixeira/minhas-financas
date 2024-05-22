@@ -1,6 +1,8 @@
 package io.github.tibetteixeira.api.v1.domain.repository;
 
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
+import io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO;
+import io.github.tibetteixeira.api.v1.domain.model.enums.StatusPagamentoFatura;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -41,4 +43,17 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
             AND u.id = :usuarioId AND u.dataAuditoria.dataExclusao is null
             """)
     Optional<Fatura> buscarPorCartaoMesAno(Integer cartaoId, Integer mes, Integer ano, Integer usuarioId);
+
+    @Query("""
+            SELECT new io.github.tibetteixeira.api.v1.domain.model.dto.FaturaDTO(f.id, f.valorPago, SUM(g.valor))\s
+            FROM Fatura f\s
+            LEFT JOIN Gasto g on g.fatura.id = f.id\s
+            WHERE f.id = :id\s
+            GROUP BY f.id, f.valorPago
+            """)
+    FaturaDTO buscarEstadoAtual(Integer id);
+
+
+    @Query("SELECT f FROM Fatura f WHERE f.status in :status")
+    List<Fatura> buscarPorStatus(StatusPagamentoFatura... status);
 }
