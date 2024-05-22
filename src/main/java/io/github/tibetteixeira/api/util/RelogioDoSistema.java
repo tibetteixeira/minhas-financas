@@ -12,4 +12,9 @@ public class RelogioDoSistema implements Relogio {
     public LocalDateTime hoje() {
         return LocalDateTime.now();
     }
+
+    @Override
+    public LocalDateTime ontem() {
+        return hoje().minusDays(1);
+    }
 }
