@@ -2,6 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorRecebimento;
 import io.github.tibetteixeira.api.v1.exception.NotFoundException;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class RecebimentoServiceImplTest {
     private RecebimentoRepository repository;
     @Mock
     private UsuarioLogado usuarioLogado;
+    @Mock
+    private Relogio relogio;
     @InjectMocks
     private RecebimentoServiceImpl service;
 
@@ -46,6 +50,8 @@ public class RecebimentoServiceImplTest {
         ReflectionTestUtils.setField(service, "validador", validador);
 
         when(usuarioLogado.getId()).thenReturn(1);
+        when(relogio.hoje()).thenReturn(LocalDateTime.of(2024, 5, 22, 11, 38));
+        when(relogio.ontem()).thenReturn(LocalDateTime.of(2024, 5, 21, 11, 38));
 
         recebimento = dadoRecebimento();
     }
@@ -270,11 +276,26 @@ public class RecebimentoServiceImplTest {
         assertThat(recebimentos).isEmpty();
     }
 
+    @Test
+    public void deveriaValidarDataRecebimentoNula() {
+        recebimento.setDataRecebimento(null);
+        recebimento.atualizarDataRecebimento(relogio.hoje());
+
+        assertThat(recebimento.getDataRecebimento()).isEqualTo(relogio.hoje());
+    }
+
+    @Test
+    public void deveriaValidarDataRecebimentoPreenchida() {
+        recebimento.atualizarDataRecebimento(relogio.hoje());
+        assertThat(recebimento.getDataRecebimento()).isEqualTo(relogio.ontem());
+    }
+
     private Recebimento dadoRecebimento() {
         return Recebimento.builder()
                 .id(1)
                 .descricao("Recebimento da descricao")
                 .valor(BigDecimal.TEN)
+                .dataRecebimento(relogio.ontem())
                 .tipoRecebimento(PIX)
                 .build();
     }

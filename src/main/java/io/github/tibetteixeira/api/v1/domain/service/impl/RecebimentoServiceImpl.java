@@ -2,6 +2,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Recebimento;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import io.github.tibetteixeira.api.v1.domain.repository.RecebimentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.RecebimentoService;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorRecebimento;
@@ -22,13 +23,14 @@ public class RecebimentoServiceImpl implements RecebimentoService {
     private final RecebimentoRepository repository;
     private final UsuarioLogado usuarioLogado;
     private final ValidadorRecebimento validador;
+    private final Relogio relogio;
 
     @Override
     public void salvar(Recebimento recebimento) {
         validador.validar(recebimento);
 
         recebimento.setUsuario(usuarioLogado.getUsuario());
-        definirDataRecebimento(recebimento);
+        recebimento.atualizarDataRecebimento(relogio.hoje());
 
         repository.save(recebimento);
     }
@@ -42,7 +44,7 @@ public class RecebimentoServiceImpl implements RecebimentoService {
         recebimentoDaBase.setDataRecebimento(recebimento.getDataRecebimento());
         recebimentoDaBase.setTipoRecebimento(recebimento.getTipoRecebimento());
         recebimentoDaBase.setValor(recebimento.getValor());
-        definirDataRecebimento(recebimentoDaBase);
+        recebimento.atualizarDataRecebimento(relogio.hoje());
 
         repository.save(recebimentoDaBase);
     }
@@ -68,11 +70,6 @@ public class RecebimentoServiceImpl implements RecebimentoService {
     @Override
     public List<Recebimento> buscarTodos() {
         return repository.buscarTodos(usuarioLogado.getId());
-    }
-
-    private void definirDataRecebimento(Recebimento recebimento) {
-        if (isNull(recebimento.getDataRecebimento()))
-            recebimento.setDataRecebimento(LocalDateTime.now());
     }
 
 }

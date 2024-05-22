@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,6 +42,11 @@ public class Recebimento implements Serializable {
     @JoinColumn(name = "id_usuario")
     @ManyToOne
     private Usuario usuario;
+
+    public void atualizarDataRecebimento(LocalDateTime dataRecebimento) {
+        if (isNull(this.dataRecebimento))
+            this.dataRecebimento = dataRecebimento;
+    }
 
     public RecebimentoDTO toDTO() {
         return RecebimentoDTO.builder()
