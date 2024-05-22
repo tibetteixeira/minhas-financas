@@ -29,7 +29,7 @@ jobs:
         run: mvn clean package
 
       - name: Docker Compose Build
-        run: docker build ${{ secrets.DOCKER_USERNAME }}/minhasfinancas
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minhasfinancas
 
       - name: Push to DockerHub Container Registry
         run: |
