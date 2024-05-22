@@ -3,6 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import io.github.tibetteixeira.api.v1.domain.model.enums.FormaPagamento;
 import io.github.tibetteixeira.api.v1.domain.repository.PagamentoRepository;
 import io.github.tibetteixeira.api.v1.domain.validator.ValidadorPagamento;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class PagamentoServiceImplTest {
     private PagamentoRepository repository;
     @Mock
     private UsuarioLogado usuarioLogado;
+    @Mock
+    private Relogio relogio;
     @InjectMocks
     private PagamentoServiceImpl service;
 
@@ -46,6 +50,8 @@ public class PagamentoServiceImplTest {
         ReflectionTestUtils.setField(service, "validador", validador);
 
         when(usuarioLogado.getId()).thenReturn(1);
+        when(relogio.hoje()).thenReturn(LocalDateTime.of(2024, 5, 22, 11, 38));
+        when(relogio.ontem()).thenReturn(LocalDateTime.of(2024, 5, 21, 11, 38));
 
         pagamento = dadoPagamento();
     }
@@ -297,11 +303,26 @@ public class PagamentoServiceImplTest {
         assertThat(pagamentos).isEmpty();
     }
 
+    @Test
+    public void deveriaValidarDataPagamentoNula() {
+        pagamento.setDataPagamento(null);
+        pagamento.atualizarDataPagamento(relogio.hoje());
+
+        assertThat(pagamento.getDataPagamento()).isEqualTo(relogio.hoje());
+    }
+
+    @Test
+    public void deveriaValidarDataPagamentoPreenchida() {
+        pagamento.atualizarDataPagamento(relogio.hoje());
+        assertThat(pagamento.getDataPagamento()).isEqualTo(relogio.ontem());
+    }
+
     private Pagamento dadoPagamento() {
         return Pagamento.builder()
                 .id(1)
                 .descricao("Pagamento da fatura")
                 .valor(BigDecimal.TEN)
+                .dataPagamento(relogio.ontem())
                 .fatura(new Fatura(1))
                 .formaPagamento(FormaPagamento.BOLETO)
                 .build();

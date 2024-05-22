@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -56,6 +58,11 @@ public class Pagamento implements Serializable {
                 .faturaId(Objects.nonNull(fatura) ? fatura.getId() : null)
                 .usuarioId(usuario.getId())
                 .build();
+    }
+
+    public void atualizarDataPagamento(LocalDateTime dataPagamento) {
+        if (isNull(this.dataPagamento))
+            this.dataPagamento = dataPagamento;
     }
 
 }

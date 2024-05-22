@@ -3,6 +3,7 @@ package io.github.tibetteixeira.api.v1.domain.service.impl;
 import io.github.tibetteixeira.api.util.UsuarioLogado;
 import io.github.tibetteixeira.api.v1.domain.model.Fatura;
 import io.github.tibetteixeira.api.v1.domain.model.Pagamento;
+import io.github.tibetteixeira.api.v1.domain.model.Relogio;
 import io.github.tibetteixeira.api.v1.domain.repository.PagamentoRepository;
 import io.github.tibetteixeira.api.v1.domain.service.FaturaService;
 import io.github.tibetteixeira.api.v1.domain.service.PagamentoService;
@@ -13,11 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static io.github.tibetteixeira.api.util.NumericUtils.menorQue;
-import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +26,13 @@ public class PagamentoServiceImpl implements PagamentoService {
     private final UsuarioLogado usuarioLogado;
     private final ValidadorPagamento validador;
     private final FaturaService faturaService;
+    private final Relogio relogio;
 
     @Override
     public void salvar(Pagamento pagamento) {
         validador.validar(pagamento);
         pagamento.setUsuario(usuarioLogado.getUsuario());
-        definirDataPagamento(pagamento);
+        pagamento.atualizarDataPagamento(relogio.hoje());
 
         Fatura fatura = faturaService.buscarPorId(pagamento.getFatura().getId());
         fatura.adicionarPagamento(pagamento.getValor());
@@ -54,7 +54,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoDaBase.setDataPagamento(pagamento.getDataPagamento());
         pagamentoDaBase.setValor(pagamento.getValor());
         pagamentoDaBase.setDescricao(pagamento.getDescricao());
-        definirDataPagamento(pagamentoDaBase);
+        pagamentoDaBase.atualizarDataPagamento(relogio.hoje());
 
         Fatura fatura = faturaService.buscarPorId(pagamento.getFatura().getId());
 
@@ -94,10 +94,5 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Override
     public List<Pagamento> buscarTodos() {
         return repository.buscarTodos(usuarioLogado.getId());
-    }
-
-    private void definirDataPagamento(Pagamento pagamento) {
-        if (isNull(pagamento.getDataPagamento()))
-            pagamento.setDataPagamento(LocalDateTime.now());
     }
 }
