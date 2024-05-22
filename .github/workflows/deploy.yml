@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-      - master
 
 jobs:
-  run-unit-tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,10 +29,10 @@ jobs:
         run: mvn clean package
 
       - name: Docker Compose Build
-        run: docker compose build
+        run: docker build ${{ secrets.DOCKER_USERNAME }}/minhasfinancas
 
       - name: Push to DockerHub Container Registry
         run: |
-          docker tag ${{ secrets.DOCKER_USERNAME }}/minhas-financas:latest ${{ secrets.DOCKER_USERNAME }}/minhas-financas:${{ github.run_id }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/minhas-financas:${{ github.run_id }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/minhas-financas:latest
+          docker tag ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:latest ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:latest
