@@ -46,4 +46,4 @@ jobs:
       - name: Remove docker container
         run: docker rm -f minhasfinancas
       - name: Run docker container
-        run: docker run -d -p 8080:8080 -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name minhasfinancas ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:latest
+        run: docker run -d -p 8080:8080 -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} --name minhasfinancas ${{ secrets.DOCKER_USERNAME }}/minhasfinancas:latest
